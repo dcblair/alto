@@ -2,7 +2,7 @@
   "name": "alto",
   "private": true,
   "license": "MIT",
-  "author": "Kent C. Dodds <me@kentcdodds.com> (https://kentcdodds.com/)",
+  "author": "Devin C Blair",
   "sideEffects": false,
   "type": "module",
   "imports": {
@@ -58,6 +58,8 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@react-email/components": "0.0.17",
+    "@react-three/drei": "^9.108.3",
+    "@react-three/fiber": "^8.16.8",
     "@remix-run/express": "2.9.2",
     "@remix-run/node": "2.9.2",
     "@remix-run/react": "2.9.2",
@@ -103,6 +105,7 @@
     "tailwindcss": "^3.4.4",
     "tailwindcss-animate": "^1.0.7",
     "tailwindcss-radix": "^3.0.3",
+    "three": "^0.166.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -155,7 +158,7 @@
     "vitest": "^1.6.0"
   },
   "engines": {
-    "node": "20"
+    "node": "22"
   },
   "epic-stack": true,
   "prisma": {

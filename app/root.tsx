@@ -71,8 +71,8 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
 	return [
-		{ title: data ? 'Epic Notes' : 'Error | Epic Notes' },
-		{ name: 'description', content: `Your own captain's log` },
+		{ title: data ? 'alto' : 'error | alto' },
+		{ name: 'description', content: `alto saxophone thing!` },
 	]
 }
 
@@ -208,7 +208,6 @@ function App() {
 			<div className="flex h-screen flex-col justify-between">
 				<header className="container py-6">
 					<nav className="flex flex-wrap items-center justify-between gap-4 sm:flex-nowrap md:gap-8">
-						<Logo />
 						<div className="ml-auto hidden max-w-sm flex-1 sm:block">
 							{searchBar}
 						</div>
@@ -217,7 +216,7 @@ function App() {
 								<UserDropdown />
 							) : (
 								<Button asChild variant="default" size="lg">
-									<Link to="/login">Log In</Link>
+									<Link to="/login">log in</Link>
 								</Button>
 							)}
 						</div>
@@ -230,26 +229,12 @@ function App() {
 				</div>
 
 				<div className="container flex justify-between pb-5">
-					<Logo />
 					<ThemeSwitch userPreference={data.requestInfo.userPrefs.theme} />
 				</div>
 			</div>
 			<EpicToaster closeButton position="top-center" theme={theme} />
 			<EpicProgress />
 		</Document>
-	)
-}
-
-function Logo() {
-	return (
-		<Link to="/" className="group grid leading-snug">
-			<span className="font-light transition group-hover:-translate-x-1">
-				epic
-			</span>
-			<span className="font-bold transition group-hover:translate-x-1">
-				notes
-			</span>
-		</Link>
 	)
 }
 
