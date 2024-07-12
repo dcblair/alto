@@ -173,48 +173,42 @@ export const fingerings: any = {
 			'a#/bb': {
 				keyIds: [
 					[1, 2],
-					[1, 2, 'side bb'],
+					[1, 3, 'side bb'],
 					[1, 5],
+					[1, 6],
 				],
 			},
 			b: {
 				keyIds: [1],
 			},
 			c: {
-				keyIds: [[2], [1, 'side c']],
+				// add side c keyId
+				keyIds: [[3], [1, 'side c']],
+			},
+			'c#/db': {
+				keyIds: [1, 2, 3, 4, 5, 6, 7],
+			},
+			d: {
+				keyIds: [1, 3, 4, 5, 6, 7],
+			},
+			'd#/eb': {
+				keyIds: [1, 3, 4, 5, 6, 7],
+			},
+			e: {
+				keyIds: [1, 3, 4, 5, 6, 7],
+			},
+			f: {
+				keyIds: [1, 3, 4, 5, 6, 7],
+			},
+			'f#/gb': {
+				keyIds: [1, 3, 4, 5, 6, 7],
+			},
+			g: {
+				keyIds: [1, 3, 4],
+			},
+			'g#/ab': {
+				keyIds: [1, 3, 4, 5],
 			},
 		},
-	},
-	'a#/bb': {
-		octave: 3,
-		keyIds: [1, 2],
-	},
-	b: {
-		octave: 3,
-		keyIds: [1],
-	},
-	c: {
-		octave: 3,
-		keyIds: [2],
-	},
-	'c#/db': {
-		octave: 3,
-		keyIds: [1, 2, 3, 4, 5, 6, 7],
-	},
-	d: {
-		octave: 3,
-		keyIds: [1, 3, 4, 5, 6, 7],
-	},
-	'd#/eb': {
-		octave: 3,
-		keyIds: [1, 3, 4, 5, 6, 7],
-	},
-	e: {
-		octave: 3,
-		keyIds: [1, 3, 4, 5, 6, 7],
-	},
-	f: {
-		octave: 3,
-		keyIds: [1, 3, 4, 5, 6, 7],
 	},
 }
