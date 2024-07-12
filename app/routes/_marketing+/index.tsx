@@ -4,6 +4,7 @@ import { Canvas, MeshProps } from '@react-three/fiber'
 import { useEffect, useRef, useState } from 'react'
 import { Mesh } from 'three'
 import LeftHandMainKeys from '#app/components/ui/saxophone/lh-main-keys.js'
+import RightHandMainKeys from '#app/components/ui/saxophone/rh-main-keys.js'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
@@ -39,7 +40,7 @@ export default function Index() {
 		return () => document.removeEventListener('keydown', handleOctaveChange)
 	}, [currentOctave])
 
-	const parsedNote = keyMap[note]!
+	const parsedNote = keyMap[note]!.note
 	const mappedNote = `${parsedNote} ${currentOctave}`
 
 	return (
@@ -50,10 +51,19 @@ export default function Index() {
 				{/* {note} */}
 				{mappedNote}
 			</span>
-			<Canvas className="w-96">
+			<Canvas camera={{ position: [0, 1, 6] }} className="h-full w-full">
 				<spotLight position={[10, 10, 10]} />
 				<ambientLight intensity={0.5} />
-				<LeftHandMainKeys note={parsedNote} octave={currentOctave} />
+				<LeftHandMainKeys
+					note={parsedNote}
+					octave={currentOctave}
+					position={[0, -1, 0]}
+				/>
+				<RightHandMainKeys
+					note={parsedNote}
+					octave={currentOctave}
+					position={[0, -5.5, 0]}
+				/>
 			</Canvas>
 		</main>
 	)

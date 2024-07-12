@@ -25,51 +25,26 @@ export const octaveShiftKeys: string[] = ['z', 'x']
 export const octave = [1, 2, 3, 4, 5, 6, 7, 8]
 
 // todo: flat and sharp symbols?
-export const keyMap: Record<string, string> = {
-	a: 'c',
-	w: 'c#/db',
-	s: 'd',
-	e: 'd#/eb',
-	d: 'e',
-	f: 'f',
-	t: 'f#/gb',
-	g: 'g',
-	y: 'g#/ab',
-	h: 'a',
-	u: 'a#/bb',
-	j: 'b',
-	k: 'c',
-	o: 'c#/db',
-	l: 'd',
-	p: 'd#/eb',
+export const keyMap: Record<string, { note: string; midiNote: number }> = {
+	a: { note: 'c', midiNote: 48 },
+	w: { note: 'c#/db', midiNote: 49 },
+	s: { note: 'd', midiNote: 50 },
+	e: { note: 'd#/eb', midiNote: 51 },
+	d: { note: 'e', midiNote: 52 },
+	f: { note: 'f', midiNote: 53 },
+	t: { note: 'f#/gb', midiNote: 54 },
+	g: { note: 'g', midiNote: 55 },
+	y: { note: 'g#/ab', midiNote: 56 },
+	h: { note: 'a', midiNote: 57 },
+	u: { note: 'a#/bb', midiNote: 58 },
+	j: { note: 'b', midiNote: 59 },
+	k: { note: 'c', midiNote: 60 },
+	o: { note: 'c#/db', midiNote: 61 },
+	l: { note: 'd', midiNote: 62 },
+	p: { note: 'd#/eb', midiNote: 63 },
 }
 
-// todo: consider key combos for multiple octaves
-export const keyCombos: Record<string, number[]> = {
-	a: [1, 3],
-	'a#/bb': [1, 2],
-	b: [1],
-	c: [2],
-	'c#/db': [1, 2, 3, 4, 5, 6, 7],
-	d: [1, 3, 4, 5, 6, 7],
-	'd#/eb': [1, 3, 4, 5, 6, 7],
-	e: [1, 3, 4, 5, 6, 7],
-	f: [1, 3, 4, 5, 6, 7],
-	'f#/gb': [1, 3, 4, 5, 6, 7],
-	g: [1, 3, 4, 5, 6, 7],
-	'g#/ab': [1, 3, 4, 5, 6, 7],
-}
-
-/**
- * combo to get a: 1, 3
- * combo to get a# or bb: 1, 2 or 1, 5
- * combo to get b: 1
- * combo to get c: 2
- * combo to get c# or db: all open
- * combo to get d: 1, 3, 4, 5, 6, 7
- */
-
-// todo: should i group these using object keys?
+// todo: finish keyGroups for eventual keyboard saxophone key control
 export const keyGroups: Record<string, string[]> = {
 	'lh-front': ['a', 's', 'd'],
 	'lh-middle': ['f', 'g', 'h'],
@@ -81,133 +56,338 @@ export const keyGroups: Record<string, string[]> = {
 
 export const keyLayout: Record<
 	string,
-	{ keyId: number; name: string; group: string }[]
+	{ keyId: string; name: string; group: string }[]
 > = {
+	// left hand main keys
 	'lh-main': [
 		{
-			keyId: 0,
+			keyId: 'f-fork',
 			name: 'fork f',
 			group: 'lh-main',
 		},
 		{
-			keyId: 1,
+			keyId: 'b-main',
 			name: 'b',
 			group: 'lh-main',
 		},
 		{
-			keyId: 2,
+			keyId: 'b-bis',
 			name: 'bis b',
 			group: 'lh-main',
 		},
 		{
-			keyId: 3,
+			keyId: 'c-main',
 			name: 'c',
 			group: 'lh-main',
 		},
 		{
-			keyId: 4,
+			keyId: 'g-main',
 			name: 'g',
 			group: 'lh-main',
 		},
 	],
+
+	// right hand main keys
 	'rh-main': [
 		{
-			keyId: 5,
+			keyId: 'f-main',
 			name: 'f',
 			group: 'rh-main',
 		},
 		{
-			keyId: 6,
+			keyId: 'e-main',
 			name: 'e',
 			group: 'rh-main',
 		},
 		{
-			keyId: 7,
+			keyId: 'd-main',
 			name: 'd',
 			group: 'rh-main',
 		},
+		{
+			keyId: 'f-main-alt',
+			name: 'f',
+			group: 'rh-main',
+		},
 	],
+
+	// right hand pinky keys
 	'rh-pinky': [
 		{
-			keyId: 8,
-			name: 'eb',
+			keyId: 'd#/eb-pinky',
+			name: 'd#/eb',
 			group: 'rh-pinky',
 		},
 		{
-			keyId: 9,
-			name: 'bb',
+			keyId: 'a#/bb-pinky-right',
+			name: 'a#/bb',
 			group: 'rh-pinky',
 		},
 	],
+
+	// left hand pinky keys
 	'lh-pinky': [
 		{
-			keyId: 11,
-			name: 'g#',
+			keyId: 'g#/ab-pinky',
+			name: 'g#/ab',
 			group: 'lh-pinky',
 		},
 		{
-			keyId: 12,
-			name: 'c#',
+			keyId: 'c#/db-pinky',
+			name: 'c#/db',
 			group: 'lh-pinky',
 		},
 		{
-			keyId: 13,
+			keyId: 'b-pinky',
 			name: 'b',
 			group: 'lh-pinky',
 		},
 		{
-			keyId: 14,
-			name: 'bb',
+			keyId: 'a#/bb-pinky-left',
+			name: 'a#/bb',
 			group: 'lh-pinky',
+		},
+	],
+
+	// palm keys
+	'lh-palm': [
+		{
+			keyId: 'd-palm',
+			name: 'd',
+			group: 'lh-palm',
+		},
+		{
+			keyId: 'd#/eb-palm',
+			name: 'd#/eb',
+			group: 'lh-palm',
+		},
+		{
+			keyId: 'f-palm',
+			name: 'f',
+			group: 'lh-palm',
+		},
+	],
+
+	// right hand side keys
+	'rh-side': [
+		{
+			keyId: 'e-side',
+			name: 'e',
+			group: 'rh-side',
+		},
+		{
+			keyId: 'c-side',
+			name: 'c',
+			group: 'rh-side',
+		},
+		{
+			keyId: 'a#/bb-side',
+			name: 'a#/bb-side',
+			group: 'rh-side',
+		},
+	],
+
+	// octave key
+	octave: [
+		{
+			keyId: 'octave',
+			name: 'octave',
+			group: 'octave',
 		},
 	],
 }
 
-// order by octave, or by note?
+// todo: check fingerings
 export const fingerings: any = {
 	octave: {
 		3: {
-			a: {
-				keyIds: [1, 3],
-			},
 			'a#/bb': {
 				keyIds: [
-					[1, 2],
-					[1, 3, 'side bb'],
-					[1, 5],
-					[1, 6],
+					[
+						'b-main',
+						'c-main',
+						'g-main',
+						'f-main',
+						'e-main',
+						'd-main',
+						'a#/bb-pinky-left',
+						'a#/bb-pinky-right',
+					],
 				],
 			},
 			b: {
-				keyIds: [1],
+				keyIds: [
+					'b-main',
+					'c-main',
+					'g-main',
+					'f-main',
+					'e-main',
+					'd-main',
+					'b-pinky',
+					'a#/bb-pinky-right',
+				],
 			},
 			c: {
 				// add side c keyId
-				keyIds: [[3], [1, 'side c']],
+				keyIds: [
+					'b-main',
+					'c-main',
+					'g-main',
+					'f-main',
+					'e-main',
+					'd-main',
+					'a#/bb-pinky-right',
+				],
 			},
 			'c#/db': {
-				keyIds: [1, 2, 3, 4, 5, 6, 7],
+				keyIds: [
+					'b-main',
+					'c-main',
+					'g-main',
+					'f-main',
+					'e-main',
+					'd-main',
+					'c#/db-pinky',
+					'a#/bb-pinky-right',
+				],
 			},
 			d: {
-				keyIds: [1, 3, 4, 5, 6, 7],
+				keyIds: ['b-main', 'c-main', 'g-main', 'f-main', 'e-main', 'd-main'],
 			},
 			'd#/eb': {
-				keyIds: [1, 3, 4, 5, 6, 7],
+				keyIds: [
+					'b-main',
+					'c-main',
+					'g-main',
+					'f-main',
+					'e-main',
+					'd-main',
+					'd#/eb-pinky',
+				],
 			},
 			e: {
-				keyIds: [1, 3, 4, 5, 6, 7],
+				keyIds: ['b-main', 'c-main', 'g-main', 'f-main', 'e-main'],
 			},
 			f: {
-				keyIds: [1, 3, 4, 5, 6, 7],
+				keyIds: ['b-main', 'c-main', 'g-main', 'f-main'],
 			},
 			'f#/gb': {
-				keyIds: [1, 3, 4, 5, 6, 7],
+				keyIds: ['b-main', 'c-main', 'g-main', 'e-main'],
 			},
 			g: {
-				keyIds: [1, 3, 4],
+				keyIds: ['b-main', 'c-main', 'g-main'],
 			},
 			'g#/ab': {
-				keyIds: [1, 3, 4, 5],
+				keyIds: ['b-main', 'c-main', 'g-main', 'g#/ab-pinky'],
+			},
+			a: {
+				keyIds: ['b-main', 'c-main'],
+			},
+		},
+		4: {
+			'a#/bb': {
+				keyIds: [
+					['b-main', 'b-bis'],
+					['b-main', 'c-main', 'a#/bb-side'],
+					['b-main', 'f-main'],
+					['b-main', 'g-main'],
+				],
+			},
+			b: {
+				keyIds: ['b-main'],
+			},
+			c: {
+				keyIds: [['c-main'], ['b-main', 'c-side']],
+			},
+			'c#/db': {
+				keyIds: [],
+			},
+			d: {
+				keyIds: [
+					'b-main',
+					'c-main',
+					'g-main',
+					'f-main',
+					'e-main',
+					'd-main',
+					'octave',
+				],
+			},
+			'd#/eb': {
+				keyIds: [
+					'b-main',
+					'c-main',
+					'g-main',
+					'f-main',
+					'e-main',
+					'd-main',
+					'd#/eb-pinky',
+					'octave',
+				],
+			},
+			e: {
+				keyIds: ['b-main', 'c-main', 'g-main', 'f-main', 'e-main', 'octave'],
+			},
+			f: {
+				keyIds: ['b-main', 'c-main', 'g-main', 'f-main', 'octave'],
+			},
+			'f#/gb': {
+				keyIds: ['b-main', 'c-main', 'g-main', 'e-main', 'octave'],
+			},
+			g: {
+				keyIds: ['b-main', 'c-main', 'g-main', 'octave'],
+			},
+			'g#/ab': {
+				keyIds: ['b-main', 'c-main', 'g-main', 'g#/ab-pinky', 'octave'],
+			},
+		},
+		5: {
+			'a#/bb': {
+				keyIds: [
+					['b-main', 'b-bis', 'octave'],
+					['b-main', 'c-main', 'a#/bb-side', 'octave'],
+					['b-main', 'f-main', 'octave'],
+					['b-main', 'g-main', 'octave'],
+				],
+			},
+			b: {
+				keyIds: ['b-main', 'octave'],
+			},
+			c: {
+				keyIds: [
+					['c-main', 'octave'],
+					['b-main', 'c-side', 'octave'],
+				],
+			},
+			'c#/db': {
+				keyIds: ['octave'],
+			},
+			d: {
+				keyIds: ['d-palm', 'octave'],
+			},
+			'd#/eb': {
+				keyIds: ['d-palm', 'd#/eb-palm', 'octave'],
+			},
+			e: {
+				keyIds: [
+					['d-palm', 'd#/eb-palm', 'f-palm', 'e-side', 'octave'],
+					['f-fork', 'b-main', 'c-main'],
+				],
+			},
+			f: {
+				keyIds: [
+					['b-main', 'c-main', 'g-main', 'f-main', 'octave'],
+					['f-fork', 'c-main', 'octave'],
+				],
+			},
+			'f#/gb': {
+				keyIds: ['f-fork', 'c-main', 'octave'],
+			},
+			g: {
+				keyIds: ['b-main', 'c-main', 'g-main', 'octave'],
+			},
+			'g#/ab': {
+				keyIds: ['b-main', 'c-main', 'g-main', 'g#/ab-pinky', 'octave'],
 			},
 		},
 	},

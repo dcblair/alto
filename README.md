@@ -12,3 +12,9 @@ computer keyboard functionality
 ## thanks
 
 alot is built on [the epic stack](https://www.epicweb.dev/epic-stack)
+
+## resources
+
+[the epic stack](https://www.epicweb.dev/epic-stack)
+
+<!-- Add sax resources -->
