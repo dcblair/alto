@@ -54,8 +54,17 @@ export const keyGroups: Record<string, string[]> = {
 	'rh-back': ['o', 'p'],
 }
 
+type KeyLayoutKey =
+	| 'lh-main'
+	| 'rh-main'
+	| 'rh-pinky'
+	| 'lh-pinky'
+	| 'lh-palm'
+	| 'rh-side'
+	| 'octave'
+
 export const keyLayout: Record<
-	string,
+	KeyLayoutKey,
 	{ keyId: string; name: string; group: string }[]
 > = {
 	// left hand main keys

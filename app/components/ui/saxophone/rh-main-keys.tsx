@@ -65,7 +65,7 @@ const RightHandMainKeys = ({
 					<>
 						<RightHandMainKey
 							position={[
-								keyId === 'f-main-alt' ? -2 : 0,
+								keyId === 'f-main-alt' ? -5.5 : 0,
 								keyId === 'f-main-alt' ? index + 2 : index,
 								0,
 							]}
@@ -76,7 +76,13 @@ const RightHandMainKeys = ({
 							name={name}
 							keyId={keyId}
 						/>
-						<Text position={[keyId === 'f-main-alt' ? -5 : -3, index, 0]}>
+						<Text
+							position={[
+								keyId === 'f-main-alt' ? -9 : -2.5,
+								keyId === 'f-main-alt' ? index + 2 : index,
+								0,
+							]}
+						>
 							{keyId}
 						</Text>
 					</>

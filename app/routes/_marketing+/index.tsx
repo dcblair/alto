@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Mesh } from 'three'
 import LeftHandMainKeys from '#app/components/ui/saxophone/lh-main-keys.js'
 import RightHandMainKeys from '#app/components/ui/saxophone/rh-main-keys.js'
+import RightHandPinkyKeys from '#app/components/ui/saxophone/rh-pinky-keys.js'
+import OctaveKey from '#app/components/ui/saxophone/octave-key.js'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
@@ -51,7 +53,7 @@ export default function Index() {
 				{/* {note} */}
 				{mappedNote}
 			</span>
-			<Canvas camera={{ position: [0, 1, 6] }} className="h-full w-full">
+			<Canvas camera={{ position: [0, 1, 10] }} className="h-full w-full">
 				<spotLight position={[10, 10, 10]} />
 				<ambientLight intensity={0.5} />
 				<LeftHandMainKeys
@@ -63,6 +65,16 @@ export default function Index() {
 					note={parsedNote}
 					octave={currentOctave}
 					position={[0, -5.5, 0]}
+				/>
+				<RightHandPinkyKeys
+					note={parsedNote}
+					octave={currentOctave}
+					position={[0, -7.5, 0]}
+				/>
+				<OctaveKey
+					note={parsedNote}
+					octave={currentOctave}
+					position={[-4.5, -0.5, 0]}
 				/>
 			</Canvas>
 		</main>
