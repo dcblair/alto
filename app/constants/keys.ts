@@ -68,3 +68,153 @@ export const keyCombos: Record<string, number[]> = {
  * combo to get c# or db: all open
  * combo to get d: 1, 3, 4, 5, 6, 7
  */
+
+// todo: should i group these using object keys?
+export const keyGroups: Record<string, string[]> = {
+	'lh-front': ['a', 's', 'd'],
+	'lh-middle': ['f', 'g', 'h'],
+	'lh-back': ['j', 'k', 'l'],
+	'rh-front': ['w', 'e', 't'],
+	'rh-middle': ['y', 'u', 'i'],
+	'rh-back': ['o', 'p'],
+}
+
+export const keyLayout: Record<
+	string,
+	{ keyId: number; name: string; group: string }[]
+> = {
+	'lh-main': [
+		{
+			keyId: 0,
+			name: 'fork f',
+			group: 'lh-main',
+		},
+		{
+			keyId: 1,
+			name: 'b',
+			group: 'lh-main',
+		},
+		{
+			keyId: 2,
+			name: 'bis b',
+			group: 'lh-main',
+		},
+		{
+			keyId: 3,
+			name: 'c',
+			group: 'lh-main',
+		},
+		{
+			keyId: 4,
+			name: 'g',
+			group: 'lh-main',
+		},
+	],
+	'rh-main': [
+		{
+			keyId: 5,
+			name: 'f',
+			group: 'rh-main',
+		},
+		{
+			keyId: 6,
+			name: 'e',
+			group: 'rh-main',
+		},
+		{
+			keyId: 7,
+			name: 'd',
+			group: 'rh-main',
+		},
+	],
+	'rh-pinky': [
+		{
+			keyId: 8,
+			name: 'eb',
+			group: 'rh-pinky',
+		},
+		{
+			keyId: 9,
+			name: 'bb',
+			group: 'rh-pinky',
+		},
+	],
+	'lh-pinky': [
+		{
+			keyId: 11,
+			name: 'g#',
+			group: 'lh-pinky',
+		},
+		{
+			keyId: 12,
+			name: 'c#',
+			group: 'lh-pinky',
+		},
+		{
+			keyId: 13,
+			name: 'b',
+			group: 'lh-pinky',
+		},
+		{
+			keyId: 14,
+			name: 'bb',
+			group: 'lh-pinky',
+		},
+	],
+}
+
+// order by octave, or by note?
+export const fingerings: any = {
+	octave: {
+		3: {
+			a: {
+				keyIds: [1, 3],
+			},
+			'a#/bb': {
+				keyIds: [
+					[1, 2],
+					[1, 2, 'side bb'],
+					[1, 5],
+				],
+			},
+			b: {
+				keyIds: [1],
+			},
+			c: {
+				keyIds: [[2], [1, 'side c']],
+			},
+		},
+	},
+	'a#/bb': {
+		octave: 3,
+		keyIds: [1, 2],
+	},
+	b: {
+		octave: 3,
+		keyIds: [1],
+	},
+	c: {
+		octave: 3,
+		keyIds: [2],
+	},
+	'c#/db': {
+		octave: 3,
+		keyIds: [1, 2, 3, 4, 5, 6, 7],
+	},
+	d: {
+		octave: 3,
+		keyIds: [1, 3, 4, 5, 6, 7],
+	},
+	'd#/eb': {
+		octave: 3,
+		keyIds: [1, 3, 4, 5, 6, 7],
+	},
+	e: {
+		octave: 3,
+		keyIds: [1, 3, 4, 5, 6, 7],
+	},
+	f: {
+		octave: 3,
+		keyIds: [1, 3, 4, 5, 6, 7],
+	},
+}
