@@ -1,22 +1,21 @@
 // querty midi keyboard piano keys
 export const acceptedKeys: string[] = [
-	'a',
-	's',
-	'd',
-	'f',
-	'g',
-	'h',
-	'j',
-	'k',
-	'l',
-	'w',
-	'e',
-	't',
-	'y',
-	'u',
-	'i',
-	'o',
-	'p',
+	'a', // c
+	's', // d
+	'd', // e
+	'f', // f
+	'g', // g
+	'h', // a
+	'j', // b
+	'k', // c
+	'l', // d
+	'w', // c#/db
+	'e', // d#/eb
+	't', // f#/gb
+	'y', // g#/ab
+	'u', // a#/bb
+	'o', // c#/db
+	'p', // d#/eb
 ]
 
 export const octaveShiftKeys: string[] = ['z', 'x']
@@ -335,22 +334,25 @@ export const fingerings: any = {
 				],
 			},
 			e: {
-				keyIds: ['b-main', 'c-main', 'g-main', 'f-main', 'e-main', 'octave'],
+				keyIds: [['b-main', 'c-main', 'g-main', 'f-main', 'e-main', 'octave']],
 			},
 			f: {
-				keyIds: ['b-main', 'c-main', 'g-main', 'f-main', 'octave'],
+				keyIds: [['b-main', 'c-main', 'g-main', 'f-main', 'octave']],
 			},
 			'f#/gb': {
-				keyIds: ['b-main', 'c-main', 'g-main', 'e-main', 'octave'],
+				keyIds: [['b-main', 'c-main', 'g-main', 'e-main', 'octave']],
 			},
 			g: {
-				keyIds: ['b-main', 'c-main', 'g-main', 'octave'],
+				keyIds: [['b-main', 'c-main', 'g-main', 'octave']],
 			},
 			'g#/ab': {
-				keyIds: ['b-main', 'c-main', 'g-main', 'g#/ab-pinky', 'octave'],
+				keyIds: [['b-main', 'c-main', 'g-main', 'g#/ab-pinky', 'octave']],
 			},
 		},
 		5: {
+			a: {
+				keyIds: [['b-main', 'c-main', 'octave']],
+			},
 			'a#/bb': {
 				keyIds: [
 					['b-main', 'b-bis', 'octave'],
