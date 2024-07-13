@@ -48,18 +48,11 @@ const RightHandPinkyKeys = ({
 	octave,
 	...props
 }: RightHandPinkyKeysProps) => {
-	// give each key a number and map as pressed or not based on note
-
-	/** todo: consider user being able to press down sax keys manually, too
-	 *	eg/ keyboard works as saxophone keys
-	 *	eg/ user can click on keys to press them
-	 *	eg/ user can press keys on the screen to press them
-	 */
 	const RightHandPinkyKeys = keyLayout['rh-pinky']
 
 	return (
 		<group {...props}>
-			{/* fork f, b, bis b, c, and g keys */}
+			{/* d#/eb and a#/bb right-hand pinky keys */}
 			{RightHandPinkyKeys &&
 				RightHandPinkyKeys.toReversed().map(({ group, keyId, name }, index) => (
 					<>
@@ -72,7 +65,7 @@ const RightHandPinkyKeys = ({
 							name={name}
 							keyId={keyId}
 						/>
-						<Text position={[-3, index, 0]}>{keyId}</Text>
+						<Text position={[-5, index, 0]}>{keyId}</Text>
 					</>
 				))}
 		</group>

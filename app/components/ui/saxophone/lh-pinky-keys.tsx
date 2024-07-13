@@ -2,14 +2,14 @@ import { Text } from '@react-three/drei'
 import { type MeshProps, type GroupProps } from '@react-three/fiber'
 import { fingerings, keyLayout } from '#app/constants/keys.js'
 
-interface RightHandMainKeysProps extends GroupProps {
+interface LeftHandPinkyKeysProps extends GroupProps {
 	// isPressed?: boolean;
 	note: string
 	octave: number
 	// onClick: () => void;
 }
 
-interface RightHandMainKeyProps extends MeshProps {
+interface LeftHandPinkyKeyProps extends MeshProps {
 	group: string
 	keyId: string
 	name: string
@@ -17,14 +17,14 @@ interface RightHandMainKeyProps extends MeshProps {
 	octave: number
 }
 
-const RightHandMainKey = ({
+const LeftHandPinkyKey = ({
 	group,
 	keyId,
 	name,
 	note,
 	octave,
 	...props
-}: RightHandMainKeyProps) => {
+}: LeftHandPinkyKeyProps) => {
 	const currentFingerings = fingerings.octave[octave][note].keyIds
 
 	const isArrayNested = currentFingerings.some((innerArray: []) =>
@@ -43,30 +43,27 @@ const RightHandMainKey = ({
 	)
 }
 
-const RightHandMainKeys = ({
+const LeftHandPinkyKeys = ({
 	note,
 	octave,
 	...props
-}: RightHandMainKeysProps) => {
-	// give each key a number and map as pressed or not based on note
-
-	/** todo: consider user being able to press down sax keys manually, too
-	 *	eg/ keyboard works as saxophone keys
-	 *	eg/ user can click on keys to press them
-	 *	eg/ user can press keys on the screen to press them
-	 */
-	const RightHandMainKeys = keyLayout['rh-main']
+}: LeftHandPinkyKeysProps) => {
+	const LeftHandPinkyKeys = keyLayout['lh-pinky']
 
 	return (
 		<group {...props}>
-			{/* f, e, d, and f-alt keys */}
-			{RightHandMainKeys &&
-				RightHandMainKeys.toReversed().map(({ group, keyId, name }, index) => (
+			{/* g#/ab, c#/db, b, and a#/bb left-hand pinky keys */}
+			{LeftHandPinkyKeys &&
+				LeftHandPinkyKeys.toReversed().map(({ group, keyId, name }) => (
 					<>
-						<RightHandMainKey
+						<LeftHandPinkyKey
 							position={[
-								keyId === 'f-main-alt' ? -5.5 : 0,
-								keyId === 'f-main-alt' ? index + 2 : index,
+								keyId === 'b-pinky' ? 1 : keyId === 'c#/db-pinky' ? -1 : 0,
+								keyId === 'g#/ab-pinky'
+									? 1.2
+									: keyId === 'a#/bb-pinky-left'
+										? -1.2
+										: 0,
 								0,
 							]}
 							octave={octave}
@@ -78,8 +75,12 @@ const RightHandMainKeys = ({
 						/>
 						<Text
 							position={[
-								keyId === 'f-main-alt' ? -9 : -2.5,
-								keyId === 'f-main-alt' ? index + 2 : index,
+								keyId === 'b-pinky' ? 5 : keyId === 'c#/db-pinky' ? 10 : 7,
+								keyId === 'g#/ab-pinky'
+									? 1.2
+									: keyId === 'a#/bb-pinky-left'
+										? -1.2
+										: 0,
 								0,
 							]}
 						>
@@ -91,4 +92,4 @@ const RightHandMainKeys = ({
 	)
 }
 
-export default RightHandMainKeys
+export default LeftHandPinkyKeys
