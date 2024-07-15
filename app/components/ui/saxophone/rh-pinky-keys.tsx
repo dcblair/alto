@@ -60,7 +60,9 @@ const RightHandPinkyKeys = ({
 							name={name}
 							keyId={keyId}
 						/>
-						<Text position={[-5, index, 0]}>{keyId}</Text>
+						<Text fontSize={0.4} position={[-2.7, index, 0]}>
+							{keyId}
+						</Text>
 					</>
 				))}
 		</group>

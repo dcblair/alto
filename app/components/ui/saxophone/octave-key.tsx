@@ -20,7 +20,9 @@ const OctaveKey = ({ note, octave, ...props }: LeftHandMainKeyProps) => {
 				<circleGeometry args={[0.4, 32]} />
 				<meshBasicMaterial color={isPressed ? 'red' : 'gold'} />
 			</mesh>
-			<Text position={[-2.5, 0, 0]}>{name}</Text>
+			<Text fontSize={0.4} position={[-1.5, 0, 0]}>
+				{name}
+			</Text>
 		</group>
 	)
 }

@@ -3,14 +3,14 @@ import { type MeshProps, type GroupProps } from '@react-three/fiber'
 import { fingerings, keyLayout } from '#app/constants/keys.js'
 import { determineIsPressed } from '#app/utils/keys-helpers.ts'
 
-interface LeftHandPalmKeysProps extends GroupProps {
+interface RightHandSideKeysProps extends GroupProps {
 	// isPressed?: boolean;
 	note: string
 	octave: number
 	// onClick: () => void;
 }
 
-interface LeftHandPalmKeyProps extends MeshProps {
+interface RightHandSideKeyProps extends MeshProps {
 	group: string
 	keyId: string
 	name: string
@@ -18,14 +18,14 @@ interface LeftHandPalmKeyProps extends MeshProps {
 	octave: number
 }
 
-const LeftHandPalmKey = ({
+const RightHandSideKey = ({
 	group,
 	keyId,
 	name,
 	note,
 	octave,
 	...props
-}: LeftHandPalmKeyProps) => {
+}: RightHandSideKeyProps) => {
 	const currentFingerings = fingerings.octave[octave][note].keyIds
 
 	const isPressed = determineIsPressed(currentFingerings, keyId)
@@ -38,25 +38,21 @@ const LeftHandPalmKey = ({
 	)
 }
 
-const LeftHandPalmKeys = ({
+const RightHandSideKeys = ({
 	note,
 	octave,
 	...props
-}: LeftHandPalmKeysProps) => {
-	const LeftHandPalmKeys = keyLayout['lh-palm']
+}: RightHandSideKeysProps) => {
+	const RightHandSideKeys = keyLayout['rh-side']
 
 	return (
 		<group {...props}>
-			{/* d, d#/eb and f left-hand palm keys */}
-			{LeftHandPalmKeys &&
-				LeftHandPalmKeys.toReversed().map(({ group, keyId, name }) => (
+			{/* e, c and a#/bb right-hand side keys */}
+			{RightHandSideKeys &&
+				RightHandSideKeys.toReversed().map(({ group, keyId, name }, index) => (
 					<>
-						<LeftHandPalmKey
-							position={[
-								keyId === 'd-palm' ? 0 : keyId === 'd#/eb-palm' ? 1 : 2,
-								keyId === 'd-palm' ? 1.2 : keyId === 'd#/eb-palm' ? 2 : 1,
-								0,
-							]}
+						<RightHandSideKey
+							position={[0, index, 0]}
 							octave={octave}
 							key={keyId}
 							note={note}
@@ -64,14 +60,7 @@ const LeftHandPalmKeys = ({
 							name={name}
 							keyId={keyId}
 						/>
-						<Text
-							fontSize={0.4}
-							position={[
-								keyId === 'd-palm' ? -4 : keyId === 'd#/eb-palm' ? -2.5 : -1.7,
-								keyId === 'd-palm' ? 1.2 : keyId === 'd#/eb-palm' ? 2 : 1,
-								0,
-							]}
-						>
+						<Text fontSize={0.4} position={[-2, index, 0]}>
 							{keyId}
 						</Text>
 					</>
@@ -80,4 +69,4 @@ const LeftHandPalmKeys = ({
 	)
 }
 
-export default LeftHandPalmKeys
+export default RightHandSideKeys

@@ -8,6 +8,8 @@ import RightHandPinkyKeys from '#app/components/ui/saxophone/rh-pinky-keys.js'
 import OctaveKey from '#app/components/ui/saxophone/octave-key.js'
 import LeftHandPinkyKeys from '#app/components/ui/saxophone/lh-pinky-keys.js'
 import LeftHandPalmKeys from '#app/components/ui/saxophone/lh-palm-keys.js'
+import RightHandSideKeys from '#app/components/ui/saxophone/rh-side-keys.js'
+import { Button } from '#app/components/ui/button.js'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
@@ -19,7 +21,6 @@ export default function Index() {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (acceptedKeys.includes(e.key)) {
 				setNote(e.key)
-				console.log(e.key, note)
 			}
 		}
 
@@ -46,11 +47,15 @@ export default function Index() {
 	const parsedNote = keyMap[note]!.note
 	const mappedNote = `${parsedNote} ${currentOctave}`
 
+	// todo: handle midi note mapping and enabling of correct fingering selection
+	const midiNote = keyMap[note]!.midiNote
+
 	return (
 		<main className="font-poppins grid h-full place-items-center">
 			<h1 className="text-center text-4xl font-bold">Welcome to Alto Model!</h1>
 			<p className="text-center text-lg">Play some notes on your keyboard!</p>
 			<span className="text-center text-3xl">{mappedNote}</span>
+			{}
 			<Canvas camera={{ position: [0, 1, 10] }} className="h-full w-full">
 				<spotLight position={[10, 10, 10]} />
 				<ambientLight intensity={0.5} />
@@ -77,12 +82,17 @@ export default function Index() {
 				<LeftHandPalmKeys
 					note={parsedNote}
 					octave={currentOctave}
-					position={[-7, 2, 0]}
+					position={[-7, 1, 0]}
+				/>
+				<RightHandSideKeys
+					note={parsedNote}
+					octave={currentOctave}
+					position={[-9.5, -4, 0]}
 				/>
 				<OctaveKey
 					note={parsedNote}
 					octave={currentOctave}
-					position={[-5, -0.5, 0]}
+					position={[-4, -0.5, 0]}
 				/>
 			</Canvas>
 		</main>

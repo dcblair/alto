@@ -69,8 +69,9 @@ const LeftHandPinkyKeys = ({
 							keyId={keyId}
 						/>
 						<Text
+							fontSize={0.4}
 							position={[
-								keyId === 'b-pinky' ? 5 : keyId === 'c#/db-pinky' ? 10 : 7,
+								keyId === 'b-pinky' ? 3.5 : keyId === 'c#/db-pinky' ? 6 : 4.5,
 								keyId === 'g#/ab-pinky'
 									? 1.2
 									: keyId === 'a#/bb-pinky-left'
