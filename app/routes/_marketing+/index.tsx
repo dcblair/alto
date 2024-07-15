@@ -62,22 +62,24 @@ export default function Index() {
 	}
 
 	// todo: handle midi note mapping and enabling of correct fingering selection
-	const midiNote = keyMap[note]!.midiNote
+	// const midiNote = keyMap[note]!.midiNote
 
 	return (
 		<main className="font-poppins grid h-full place-items-center">
 			<h1 className="text-center text-4xl font-bold">Welcome to Alto Model!</h1>
 			<p className="text-center text-lg">Play some notes on your keyboard!</p>
 			<span className="text-center text-3xl">{mappedNote}</span>
-			{currentFingerings.length > 1 &&
-				currentFingerings.map((fingering: Array<number>, index: number) => (
-					<>
-						<span className="text-center text-3xl">{fingering}</span>
-						<Button onClick={() => handleSelectFingering(index)}>
-							{index}
-						</Button>
-					</>
-				))}
+			<div className="flex space-x-3">
+				{currentFingerings.length > 1 &&
+					currentFingerings.map((fingering: Array<number>, index: number) => (
+						<div className="flex flex-col space-y-2 md:w-36">
+							<span className="text-center text-xl">{fingering}</span>
+							<Button onClick={() => handleSelectFingering(index)}>
+								{index}
+							</Button>
+						</div>
+					))}
+			</div>
 			<Canvas camera={{ position: [0, 1, 10] }} className="h-full w-full">
 				<spotLight position={[10, 10, 10]} />
 				<ambientLight intensity={0.5} />

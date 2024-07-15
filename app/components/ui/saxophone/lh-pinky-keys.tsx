@@ -1,12 +1,12 @@
 import { Text } from '@react-three/drei'
 import { type MeshProps, type GroupProps } from '@react-three/fiber'
+import { useContext } from 'react'
 import { fingerings, keyLayout } from '#app/constants/keys.js'
+import { KeyContext } from '#app/context/key-context.js'
 import { determineIsPressed } from '#app/utils/keys-helpers.js'
 
 interface LeftHandPinkyKeysProps extends GroupProps {
 	// isPressed?: boolean;
-	note: string
-	octave: number
 	// onClick: () => void;
 }
 
@@ -14,19 +14,16 @@ interface LeftHandPinkyKeyProps extends MeshProps {
 	group: string
 	keyId: string
 	name: string
-	note: string
-	octave: number
 }
 
 const LeftHandPinkyKey = ({
 	group,
 	keyId,
 	name,
-	note,
-	octave,
 	...props
 }: LeftHandPinkyKeyProps) => {
-	const currentFingerings = fingerings.octave[octave][note].keyIds
+	const { note, currentOctave } = useContext(KeyContext)
+	const currentFingerings = fingerings.octave[currentOctave][note].keyIds
 
 	const isPressed = determineIsPressed(currentFingerings, keyId)
 
@@ -38,11 +35,7 @@ const LeftHandPinkyKey = ({
 	)
 }
 
-const LeftHandPinkyKeys = ({
-	note,
-	octave,
-	...props
-}: LeftHandPinkyKeysProps) => {
+const LeftHandPinkyKeys = ({ ...props }: LeftHandPinkyKeysProps) => {
 	const LeftHandPinkyKeys = keyLayout['lh-pinky']
 
 	return (
@@ -61,9 +54,7 @@ const LeftHandPinkyKeys = ({
 										: 0,
 								0,
 							]}
-							octave={octave}
 							key={keyId}
-							note={note}
 							group={group}
 							name={name}
 							keyId={keyId}
