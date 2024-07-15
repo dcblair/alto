@@ -21,11 +21,15 @@ const LeftHandMainKey = ({
 	name,
 	...props
 }: LeftHandMainKeyProps) => {
-	const { note, currentOctave } = useContext(KeyContext)
+	const { note, currentOctave, selectedFingering } = useContext(KeyContext)
 	const currentFingerings = fingerings.octave[currentOctave][note].keyIds
 
 	console.log(currentFingerings)
-	const isPressed = determineIsPressed(currentFingerings, keyId)
+	const isPressed = determineIsPressed(
+		currentFingerings,
+		keyId,
+		selectedFingering,
+	)
 
 	const isForkOrBis = keyId === 'f-fork' || keyId === 'b-bis'
 	return (

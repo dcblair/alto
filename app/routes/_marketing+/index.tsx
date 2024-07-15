@@ -26,12 +26,30 @@ export default function Index() {
 	// alternatively, use midi against note with octave!
 	const [selectedKey, setSelectedKey] = useState('')
 
+	const currentFingerings = fingerings.octave[currentOctave][note].keyIds
+	const hasAlternateFingerings = currentFingerings.length > 1
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
+			// handle note selection
 			if (acceptedKeys.includes(e.key)) {
 				setSelectedKey(e.key)
 				setNote(keyMap[e.key]!.note)
 			}
+
+			// handle alternate fingering selection
+			if (
+				!isNaN(Number(e.key)) &&
+				hasAlternateFingerings &&
+				Number(e.key) < currentFingerings.length
+			) {
+				setSelectedFingering(Number(e.key))
+			}
+
+			// do I want to do this?
+			// if (e.key === 'Backspace') {
+			// 	setSelectedKey('')
+			// 	setNote('')
+			// }
 		}
 
 		document.addEventListener('keydown', handleKeyDown)
@@ -55,9 +73,9 @@ export default function Index() {
 	}, [currentOctave])
 
 	const mappedNote = `${note} ${currentOctave}`
-	const currentFingerings = fingerings.octave[currentOctave][note].keyIds
 
 	const handleSelectFingering = (index: number) => {
+		console.log(index)
 		setSelectedFingering(index)
 	}
 
@@ -70,7 +88,7 @@ export default function Index() {
 			<p className="text-center text-lg">Play some notes on your keyboard!</p>
 			<span className="text-center text-3xl">{mappedNote}</span>
 			<div className="flex space-x-3">
-				{currentFingerings.length > 1 &&
+				{hasAlternateFingerings &&
 					currentFingerings.map((fingering: Array<number>, index: number) => (
 						<div className="flex flex-col space-y-2 md:w-36">
 							<span className="text-center text-xl">{fingering}</span>

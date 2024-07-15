@@ -22,10 +22,14 @@ const LeftHandPinkyKey = ({
 	name,
 	...props
 }: LeftHandPinkyKeyProps) => {
-	const { note, currentOctave } = useContext(KeyContext)
+	const { note, currentOctave, selectedFingering } = useContext(KeyContext)
 	const currentFingerings = fingerings.octave[currentOctave][note].keyIds
 
-	const isPressed = determineIsPressed(currentFingerings, keyId)
+	const isPressed = determineIsPressed(
+		currentFingerings,
+		keyId,
+		selectedFingering,
+	)
 
 	return (
 		<mesh {...props}>
