@@ -208,6 +208,7 @@ export const keyLayout: Record<
 // todo: check fingerings
 export const fingerings: any = {
 	octave: {
+		// 3rd octave
 		3: {
 			'a#/bb': {
 				keyIds: [
@@ -300,6 +301,8 @@ export const fingerings: any = {
 				keyIds: [['b-main', 'c-main']],
 			},
 		},
+
+		// 4th octave
 		4: {
 			'a#/bb': {
 				keyIds: [
@@ -361,6 +364,8 @@ export const fingerings: any = {
 				keyIds: [['b-main', 'c-main', 'g-main', 'g#/ab-pinky', 'octave']],
 			},
 		},
+
+		// 5th octave
 		5: {
 			a: {
 				keyIds: [['b-main', 'c-main', 'octave']],
@@ -399,7 +404,7 @@ export const fingerings: any = {
 			},
 			f: {
 				keyIds: [
-					['b-main', 'c-main', 'g-main', 'f-main', 'octave'],
+					['d-palm', 'd#/eb-palm', 'f-palm', 'e-side', 'octave'],
 					['f-fork', 'c-main', 'octave'],
 				],
 			},

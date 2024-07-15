@@ -72,8 +72,9 @@ const RightHandMainKeys = ({
 							keyId={keyId}
 						/>
 						<Text
+							fontSize={0.4}
 							position={[
-								keyId === 'f-main-alt' ? -9 : -2.5,
+								keyId === 'f-main-alt' ? -7.5 : -2,
 								keyId === 'f-main-alt' ? index + 2 : index,
 								0,
 							]}
