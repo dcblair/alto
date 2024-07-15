@@ -1,12 +1,12 @@
 import { Text } from '@react-three/drei'
 import { type MeshProps, type GroupProps } from '@react-three/fiber'
+import { useContext } from 'react'
 import { fingerings, keyLayout } from '#app/constants/keys.js'
+import { KeyContext } from '#app/context/key-context.js'
 import { determineIsPressed } from '#app/utils/keys-helpers.ts'
 
 interface RightHandSideKeysProps extends GroupProps {
 	// isPressed?: boolean;
-	note: string
-	octave: number
 	// onClick: () => void;
 }
 
@@ -14,19 +14,16 @@ interface RightHandSideKeyProps extends MeshProps {
 	group: string
 	keyId: string
 	name: string
-	note: string
-	octave: number
 }
 
 const RightHandSideKey = ({
 	group,
 	keyId,
 	name,
-	note,
-	octave,
 	...props
 }: RightHandSideKeyProps) => {
-	const currentFingerings = fingerings.octave[octave][note].keyIds
+	const { note, currentOctave } = useContext(KeyContext)
+	const currentFingerings = fingerings.octave[currentOctave][note].keyIds
 
 	const isPressed = determineIsPressed(currentFingerings, keyId)
 
@@ -38,11 +35,7 @@ const RightHandSideKey = ({
 	)
 }
 
-const RightHandSideKeys = ({
-	note,
-	octave,
-	...props
-}: RightHandSideKeysProps) => {
+const RightHandSideKeys = ({ ...props }: RightHandSideKeysProps) => {
 	const RightHandSideKeys = keyLayout['rh-side']
 
 	return (
@@ -53,9 +46,7 @@ const RightHandSideKeys = ({
 					<>
 						<RightHandSideKey
 							position={[0, index, 0]}
-							octave={octave}
 							key={keyId}
-							note={note}
 							group={group}
 							name={name}
 							keyId={keyId}
