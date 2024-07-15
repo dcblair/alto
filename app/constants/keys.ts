@@ -225,71 +225,79 @@ export const fingerings: any = {
 			},
 			b: {
 				keyIds: [
-					'b-main',
-					'c-main',
-					'g-main',
-					'f-main',
-					'e-main',
-					'd-main',
-					'b-pinky',
-					'a#/bb-pinky-right',
+					[
+						'b-main',
+						'c-main',
+						'g-main',
+						'f-main',
+						'e-main',
+						'd-main',
+						'b-pinky',
+						'a#/bb-pinky-right',
+					],
 				],
 			},
 			c: {
 				// add side c keyId
 				keyIds: [
-					'b-main',
-					'c-main',
-					'g-main',
-					'f-main',
-					'e-main',
-					'd-main',
-					'a#/bb-pinky-right',
+					[
+						'b-main',
+						'c-main',
+						'g-main',
+						'f-main',
+						'e-main',
+						'd-main',
+						'a#/bb-pinky-right',
+					],
 				],
 			},
 			'c#/db': {
 				keyIds: [
-					'b-main',
-					'c-main',
-					'g-main',
-					'f-main',
-					'e-main',
-					'd-main',
-					'c#/db-pinky',
-					'a#/bb-pinky-right',
+					[
+						'b-main',
+						'c-main',
+						'g-main',
+						'f-main',
+						'e-main',
+						'd-main',
+						'c#/db-pinky',
+						'a#/bb-pinky-right',
+					],
 				],
 			},
 			d: {
-				keyIds: ['b-main', 'c-main', 'g-main', 'f-main', 'e-main', 'd-main'],
+				keyIds: [['b-main', 'c-main', 'g-main', 'f-main', 'e-main', 'd-main']],
 			},
 			'd#/eb': {
 				keyIds: [
-					'b-main',
-					'c-main',
-					'g-main',
-					'f-main',
-					'e-main',
-					'd-main',
-					'd#/eb-pinky',
+					[
+						'b-main',
+						'c-main',
+						'g-main',
+						'f-main',
+						'e-main',
+						'd-main',
+						'd#/eb-pinky',
+					],
 				],
 			},
 			e: {
-				keyIds: ['b-main', 'c-main', 'g-main', 'f-main', 'e-main'],
+				keyIds: [['b-main', 'c-main', 'g-main', 'f-main', 'e-main']],
 			},
 			f: {
-				keyIds: ['b-main', 'c-main', 'g-main', 'f-main'],
+				keyIds: [['b-main', 'c-main', 'g-main', 'f-main']],
 			},
 			'f#/gb': {
-				keyIds: ['b-main', 'c-main', 'g-main', 'e-main'],
+				keyIds: [['b-main', 'c-main', 'g-main', 'e-main']],
 			},
 			g: {
-				keyIds: ['b-main', 'c-main', 'g-main'],
+				keyIds: [['b-main', 'c-main', 'g-main']],
 			},
 			'g#/ab': {
-				keyIds: ['b-main', 'c-main', 'g-main', 'g#/ab-pinky'],
+				keyIds: [['b-main', 'c-main', 'g-main', 'g#/ab-pinky']],
 			},
 			a: {
-				keyIds: ['b-main', 'c-main'],
+				keyIds: [['b-main', 'c-main']],
 			},
 		},
 		4: {
@@ -302,35 +310,39 @@ export const fingerings: any = {
 				],
 			},
 			b: {
-				keyIds: ['b-main'],
+				keyIds: [['b-main']],
 			},
 			c: {
 				keyIds: [['c-main'], ['b-main', 'c-side']],
 			},
 			'c#/db': {
-				keyIds: [],
+				keyIds: [[]],
 			},
 			d: {
 				keyIds: [
-					'b-main',
-					'c-main',
-					'g-main',
-					'f-main',
-					'e-main',
-					'd-main',
-					'octave',
+					[
+						'b-main',
+						'c-main',
+						'g-main',
+						'f-main',
+						'e-main',
+						'd-main',
+						'octave',
+					],
 				],
 			},
 			'd#/eb': {
 				keyIds: [
-					'b-main',
-					'c-main',
-					'g-main',
-					'f-main',
-					'e-main',
-					'd-main',
-					'd#/eb-pinky',
-					'octave',
+					[
+						'b-main',
+						'c-main',
+						'g-main',
+						'f-main',
+						'e-main',
+						'd-main',
+						'd#/eb-pinky',
+						'octave',
+					],
 				],
 			},
 			e: {
@@ -362,7 +374,7 @@ export const fingerings: any = {
 				],
 			},
 			b: {
-				keyIds: ['b-main', 'octave'],
+				keyIds: [['b-main', 'octave']],
 			},
 			c: {
 				keyIds: [
@@ -371,17 +383,17 @@ export const fingerings: any = {
 				],
 			},
 			'c#/db': {
-				keyIds: ['octave'],
+				keyIds: [['octave']],
 			},
 			d: {
-				keyIds: ['d-palm', 'octave'],
+				keyIds: [['d-palm', 'octave']],
 			},
 			'd#/eb': {
-				keyIds: ['d-palm', 'd#/eb-palm', 'octave'],
+				keyIds: [['d-palm', 'd#/eb-palm', 'octave']],
 			},
 			e: {
 				keyIds: [
-					['d-palm', 'd#/eb-palm', 'f-palm', 'e-side', 'octave'],
+					['d-palm', 'd#/eb-palm', 'e-side', 'octave'],
 					['f-fork', 'b-main', 'c-main'],
 				],
 			},
@@ -392,13 +404,13 @@ export const fingerings: any = {
 				],
 			},
 			'f#/gb': {
-				keyIds: ['f-fork', 'c-main', 'octave'],
+				keyIds: [['f-fork', 'c-main', 'octave']],
 			},
 			g: {
-				keyIds: ['b-main', 'c-main', 'g-main', 'octave'],
+				keyIds: [['b-main', 'c-main', 'g-main', 'octave']],
 			},
 			'g#/ab': {
-				keyIds: ['b-main', 'c-main', 'g-main', 'g#/ab-pinky', 'octave'],
+				keyIds: [['b-main', 'c-main', 'g-main', 'g#/ab-pinky', 'octave']],
 			},
 		},
 	},

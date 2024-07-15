@@ -7,6 +7,7 @@ import RightHandMainKeys from '#app/components/ui/saxophone/rh-main-keys.js'
 import RightHandPinkyKeys from '#app/components/ui/saxophone/rh-pinky-keys.js'
 import OctaveKey from '#app/components/ui/saxophone/octave-key.js'
 import LeftHandPinkyKeys from '#app/components/ui/saxophone/lh-pinky-keys.js'
+import LeftHandPalmKeys from '#app/components/ui/saxophone/lh-palm-keys.js'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
@@ -73,10 +74,15 @@ export default function Index() {
 					octave={currentOctave}
 					position={[3, -3.5, 0]}
 				/>
+				<LeftHandPalmKeys
+					note={parsedNote}
+					octave={currentOctave}
+					position={[-7, 2, 0]}
+				/>
 				<OctaveKey
 					note={parsedNote}
 					octave={currentOctave}
-					position={[-4.5, -0.5, 0]}
+					position={[-5, -0.5, 0]}
 				/>
 			</Canvas>
 		</main>
