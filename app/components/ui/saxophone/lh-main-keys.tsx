@@ -1,6 +1,7 @@
 import { Text } from '@react-three/drei'
 import { type MeshProps, type GroupProps } from '@react-three/fiber'
 import { fingerings, keyLayout } from '#app/constants/keys.js'
+import { determineIsPressed } from '#app/utils/keys-helpers.js'
 
 interface LeftHandMainKeysProps extends GroupProps {
 	note: string
@@ -26,13 +27,7 @@ const LeftHandMainKey = ({
 }: LeftHandMainKeyProps) => {
 	const currentFingerings = fingerings.octave[octave][note].keyIds
 
-	const isArrayNested = currentFingerings.some((innerArray: []) =>
-		Array.isArray(innerArray),
-	)
-
-	const isPressed = isArrayNested
-		? currentFingerings[0].some((fingering: any) => fingering === keyId)
-		: currentFingerings.some((selectedKeyId: string) => selectedKeyId === keyId)
+	const isPressed = determineIsPressed(currentFingerings, keyId)
 
 	const isForkOrBis = keyId === 'f-fork' || keyId === 'b-bis'
 
