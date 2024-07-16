@@ -1,7 +1,7 @@
 import { Text } from '@react-three/drei'
 import { type MeshProps, type GroupProps } from '@react-three/fiber'
 import { useContext } from 'react'
-import { fingerings, keyLayout } from '#app/constants/keys.js'
+import { keyLayout } from '#app/constants/keys.js'
 import { KeyContext } from '#app/context/key-context.js'
 import { determineIsPressed } from '#app/utils/keys-helpers.js'
 
@@ -21,10 +21,8 @@ const LeftHandMainKey = ({
 	name,
 	...props
 }: LeftHandMainKeyProps) => {
-	const { note, currentOctave, selectedFingering } = useContext(KeyContext)
-	const currentFingerings = fingerings.octave[currentOctave][note].keyIds
+	const { currentFingerings, selectedFingering } = useContext(KeyContext)
 
-	console.log(currentFingerings)
 	const isPressed = determineIsPressed(
 		currentFingerings,
 		keyId,
@@ -50,7 +48,6 @@ const LeftHandMainKeys = ({ ...props }: LeftHandMainKeysProps) => {
 	 */
 	const leftHandMainKeys = keyLayout['lh-main']
 
-	console.log(leftHandMainKeys)
 	return (
 		<group {...props}>
 			{/* fork f, b, bis b, c, and g keys */}

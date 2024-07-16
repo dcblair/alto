@@ -1,4 +1,9 @@
-import { acceptedKeys, fingerings, keyMap } from '#app/constants/keys.js'
+import {
+	acceptedKeys,
+	fingerings,
+	keyMap,
+	midiNoteMap,
+} from '#app/constants/keys.js'
 import { type MetaFunction } from '@remix-run/node'
 import { Canvas } from '@react-three/fiber'
 import { useContext, useEffect, useState } from 'react'
@@ -19,21 +24,28 @@ export default function Index() {
 		note,
 		setNote,
 		setSelectedFingering,
+		currentFingerings,
+		setCurrentFingerings,
 		currentOctave,
 		setCurrentOctave,
 	} = useContext(KeyContext)
-	// todo: use midi against this? with octave?
-	// alternatively, use midi against note with octave!
 	const [selectedKey, setSelectedKey] = useState('')
+	const midiNote = midiNoteMap?.[`${note}${currentOctave}`]!
 
-	const currentFingerings = fingerings.octave[currentOctave][note].keyIds
 	const hasAlternateFingerings = currentFingerings.length > 1
+	useEffect(() => {
+		const newCurrentFingerings = fingerings.midiNote[midiNote].keyIds
+		setCurrentFingerings(newCurrentFingerings)
+	}, [midiNote])
+
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			// handle note selection
 			if (acceptedKeys.includes(e.key)) {
+				setSelectedFingering(0)
 				setSelectedKey(e.key)
-				setNote(keyMap[e.key]!.note)
+				const parsedNote = keyMap[e.key]!.note
+				setNote(parsedNote)
 			}
 
 			// handle alternate fingering selection
@@ -53,6 +65,7 @@ export default function Index() {
 		}
 
 		document.addEventListener('keydown', handleKeyDown)
+		setSelectedFingering(0)
 
 		// cleanup, cleanup, everybody do your share
 		return () => document.removeEventListener('keydown', handleKeyDown)
@@ -75,7 +88,6 @@ export default function Index() {
 	const mappedNote = `${note} ${currentOctave}`
 
 	const handleSelectFingering = (index: number) => {
-		console.log(index)
 		setSelectedFingering(index)
 	}
 
@@ -89,7 +101,7 @@ export default function Index() {
 			<span className="text-center text-3xl">{mappedNote}</span>
 			<div className="flex space-x-3">
 				{hasAlternateFingerings &&
-					currentFingerings.map((fingering: Array<number>, index: number) => (
+					currentFingerings.map((fingering: Array<string>, index: number) => (
 						<div className="flex flex-col space-y-2 md:w-36">
 							<span className="text-center text-xl">{fingering}</span>
 							<Button onClick={() => handleSelectFingering(index)}>

@@ -12,18 +12,32 @@ export interface KeyContextProps {
 	setMidiNote: (midiNote: number) => void
 	currentOctave: number
 	setCurrentOctave: (octave: number) => void
-	selectedFingering: number[]
-	setSelectedFingering: (fingering: number[]) => void
+	currentFingerings: number[]
+	setCurrentFingerings: (fingering: string[]) => void
+	selectedFingering: number
+	setSelectedFingering: (fingering: number) => void
 }
 
 export const KeyContext = createContext({
 	note: 'a',
 	setNote: (_value: string) => {},
 	// come back and fix this
-	midiNote: 56,
+	midiNote: 48,
 	setMidiNote: (_value: number) => {},
 	currentOctave: 3,
 	setCurrentOctave: (_value: number) => {},
+	currentFingerings: [
+		[
+			'b-main',
+			'c-main',
+			'g-main',
+			'f-main',
+			'e-main',
+			'd-main',
+			'a#/bb-pinky-right',
+		],
+	],
+	setCurrentFingerings: (_value: Array<string[]>) => {},
 	selectedFingering: 0,
 	setSelectedFingering: (_value: number) => {},
 })
@@ -32,6 +46,17 @@ export const KeyContextProvider = ({ children }: { children: ReactNode }) => {
 	const [note, setNote] = useState('a')
 	const [midiNote, setMidiNote] = useState<number>(56)
 	const [currentOctave, setCurrentOctave] = useState<number>(3)
+	const [currentFingerings, setCurrentFingerings] = useState<Array<string[]>>([
+		[
+			'b-main',
+			'c-main',
+			'g-main',
+			'f-main',
+			'e-main',
+			'd-main',
+			'a#/bb-pinky-right',
+		],
+	])
 	const [selectedFingering, setSelectedFingering] = useState<number>(0)
 
 	return (
@@ -43,6 +68,8 @@ export const KeyContextProvider = ({ children }: { children: ReactNode }) => {
 				setMidiNote,
 				currentOctave,
 				setCurrentOctave,
+				currentFingerings,
+				setCurrentFingerings,
 				selectedFingering,
 				setSelectedFingering,
 			}}

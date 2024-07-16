@@ -1,16 +1,15 @@
 import { Text } from '@react-three/drei'
 import { type GroupProps } from '@react-three/fiber'
 import { useContext } from 'react'
-import { fingerings, keyLayout } from '#app/constants/keys.js'
+import { keyLayout } from '#app/constants/keys.js'
 import { KeyContext } from '#app/context/key-context.js'
 import { determineIsPressed } from '#app/utils/keys-helpers.js'
 
 interface LeftHandMainKeyProps extends GroupProps {}
 
 const OctaveKey = ({ ...props }: LeftHandMainKeyProps) => {
-	const { note, currentOctave, selectedFingering } = useContext(KeyContext)
+	const { currentFingerings, selectedFingering } = useContext(KeyContext)
 	const { keyId, name } = keyLayout.octave?.[0]!
-	const currentFingerings = fingerings.octave[currentOctave][note].keyIds
 
 	const isPressed = determineIsPressed(
 		currentFingerings,
