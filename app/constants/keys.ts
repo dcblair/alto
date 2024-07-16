@@ -482,11 +482,13 @@ export const fingerings: any = {
 		},
 		79: {
 			note: 'g',
-			keyIds: [['f-fork', 'c-main', 'g-main', 'octave']],
+			keyIds: [['f-fork', 'f-main', 'e-side', 'octave']],
 		},
 		80: {
 			note: 'g#/ab',
-			keyIds: [['f-fork', 'c-main', 'g-main', 'g#/ab-pinky', 'octave']],
+			keyIds: [
+				['b-main', 'c-main', 'g-main', 'c-side', 'a#/bb-side', 'octave'],
+			],
 		},
 		81: {
 			note: 'a',
