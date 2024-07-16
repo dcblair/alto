@@ -34,6 +34,7 @@ const LeftHandMainKey = ({
 		<mesh {...props}>
 			<circleGeometry args={[isForkOrBis ? 0.45 : 0.6, 32]} />
 			<meshBasicMaterial color={isPressed ? 'red' : 'gold'} />
+			{/* <ringGeometry args={[3, 0.2, 32]} /> */}
 		</mesh>
 	)
 }

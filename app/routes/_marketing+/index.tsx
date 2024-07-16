@@ -5,8 +5,8 @@ import {
 	midiNoteMap,
 } from '#app/constants/keys.js'
 import { type MetaFunction } from '@remix-run/node'
-import { Canvas } from '@react-three/fiber'
-import { useContext, useEffect, useState } from 'react'
+import { Canvas, useThree } from '@react-three/fiber'
+import { Suspense, useContext, useEffect, useState } from 'react'
 import LeftHandMainKeys from '#app/components/ui/saxophone/lh-main-keys.js'
 import RightHandMainKeys from '#app/components/ui/saxophone/rh-main-keys.js'
 import RightHandPinkyKeys from '#app/components/ui/saxophone/rh-pinky-keys.js'
@@ -16,8 +16,18 @@ import LeftHandPalmKeys from '#app/components/ui/saxophone/lh-palm-keys.js'
 import RightHandSideKeys from '#app/components/ui/saxophone/rh-side-keys.js'
 import { Button } from '#app/components/ui/button.js'
 import { KeyContext } from '#app/context/key-context.js'
+import SaxBody from '#app/components/ui/saxophone/sax-body.js'
+import { OrbitControls } from '@react-three/drei'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
+
+const Controls = () => {
+	const {
+		camera,
+		gl: { domElement },
+	} = useThree()
+	return <OrbitControls args={[camera, domElement]} />
+}
 
 export default function Index() {
 	const {
@@ -42,6 +52,7 @@ export default function Index() {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			// handle note selection
 			if (acceptedKeys.includes(e.key)) {
+				// reset fingering index
 				setSelectedFingering(0)
 				setSelectedKey(e.key)
 				const parsedNote = keyMap[e.key]!.note
@@ -110,16 +121,23 @@ export default function Index() {
 						</div>
 					))}
 			</div>
-			<Canvas camera={{ position: [0, 1, 10] }} className="h-full w-full">
-				<spotLight position={[10, 10, 10]} />
-				<ambientLight intensity={0.5} />
-				<LeftHandMainKeys position={[0, -1, 0]} />
-				<RightHandMainKeys position={[0, -5.5, 0]} />
-				<RightHandPinkyKeys position={[0, -7.5, 0]} />
-				<LeftHandPinkyKeys position={[3, -3.5, 0]} />
-				<LeftHandPalmKeys position={[-7, 1, 0]} />
-				<RightHandSideKeys position={[-9.5, -4, 0]} />
-				<OctaveKey position={[-4, -0.5, 0]} />
+			<Canvas
+				camera={{ fov: 75, far: 1000, position: [0, 1, 10] }}
+				className="h-full w-full"
+			>
+				<Suspense fallback={null}>
+					<spotLight position={[10, 10, 10]} />
+					<ambientLight intensity={0.5} />
+					<SaxBody position={[0, 0, -1]} />
+					<LeftHandMainKeys position={[0, -1, 0]} />
+					<RightHandMainKeys position={[0, -5.5, 0]} />
+					<RightHandPinkyKeys position={[0, -7.5, 0]} />
+					<LeftHandPinkyKeys position={[3, -3.5, 0]} />
+					<LeftHandPalmKeys position={[-7, 1, 0]} />
+					<RightHandSideKeys position={[-9.5, -4, 0]} />
+					<OctaveKey position={[-4, -0.5, 0]} />
+					<Controls />
+				</Suspense>
 			</Canvas>
 		</main>
 	)
