@@ -29,21 +29,23 @@ export default function Index() {
 		currentOctave,
 		setCurrentOctave,
 	} = useContext(KeyContext)
-	// todo: use midi against this? with octave?
-	// alternatively, use midi against note with octave!
 	const [selectedKey, setSelectedKey] = useState('')
-
-	const midiNote = midiNoteMap[`${note}${currentOctave}`]!
+	const midiNote = midiNoteMap?.[`${note}${currentOctave}`]!
 
 	const hasAlternateFingerings = currentFingerings.length > 1
+	useEffect(() => {
+		const newCurrentFingerings = fingerings.midiNote[midiNote].keyIds
+		setCurrentFingerings(newCurrentFingerings)
+	}, [midiNote])
+
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			// handle note selection
 			if (acceptedKeys.includes(e.key)) {
+				setSelectedFingering(0)
 				setSelectedKey(e.key)
-				setNote(keyMap[e.key]!.note)
-				const currentFingerings = fingerings.midiNote[midiNote].keyIds
-				setCurrentFingerings(currentFingerings)
+				const parsedNote = keyMap[e.key]!.note
+				setNote(parsedNote)
 			}
 
 			// handle alternate fingering selection
@@ -63,6 +65,7 @@ export default function Index() {
 		}
 
 		document.addEventListener('keydown', handleKeyDown)
+		setSelectedFingering(0)
 
 		// cleanup, cleanup, everybody do your share
 		return () => document.removeEventListener('keydown', handleKeyDown)
@@ -85,7 +88,6 @@ export default function Index() {
 	const mappedNote = `${note} ${currentOctave}`
 
 	const handleSelectFingering = (index: number) => {
-		console.log(index)
 		setSelectedFingering(index)
 	}
 

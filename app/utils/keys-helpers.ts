@@ -1,10 +1,9 @@
 export const determineIsPressed = (
-	currentFingerings: Array<[]>,
+	currentFingerings: Array<string[]>,
 	keyId: string,
-	// todo: make this required
-	selectedFingering?: number,
+	selectedFingering: number,
 ) =>
 	Array.isArray(currentFingerings) &&
-	currentFingerings[selectedFingering || 0]!.some(
-		(fingering: any) => fingering === keyId,
-	)
+	currentFingerings[selectedFingering]!.some((fingering: any) => {
+		return fingering === keyId
+	})

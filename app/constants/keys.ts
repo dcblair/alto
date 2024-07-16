@@ -24,6 +24,8 @@ export const octaveShiftKeys: string[] = ['z', 'x']
 export const octave = [1, 2, 3, 4, 5, 6, 7, 8]
 
 export const midiNoteMap: Record<string, number> = {
+	'a#/bb2': 46,
+	b2: 47,
 	c3: 48,
 	'c#/db3': 49,
 	d3: 50,
@@ -255,7 +257,7 @@ export const keyLayout: Record<
 export const fingerings: any = {
 	midiNote: {
 		// 3rd octave
-		58: {
+		46: {
 			note: 'a#/bb',
 			keyIds: [
 				[
@@ -270,7 +272,7 @@ export const fingerings: any = {
 				],
 			],
 		},
-		59: {
+		47: {
 			note: 'b',
 			keyIds: [
 				[
@@ -286,8 +288,8 @@ export const fingerings: any = {
 			],
 		},
 
-		// 4th octave - middle c
-		60: {
+		// 3rd octave - middle c
+		48: {
 			note: 'c',
 			keyIds: [
 				[
@@ -301,7 +303,7 @@ export const fingerings: any = {
 				],
 			],
 		},
-		61: {
+		49: {
 			note: 'c#/db',
 			keyIds: [
 				[
@@ -316,11 +318,11 @@ export const fingerings: any = {
 				],
 			],
 		},
-		62: {
+		50: {
 			note: 'd',
 			keyIds: [['b-main', 'c-main', 'g-main', 'f-main', 'e-main', 'd-main']],
 		},
-		63: {
+		51: {
 			note: 'd#/eb',
 			keyIds: [
 				[
@@ -334,31 +336,31 @@ export const fingerings: any = {
 				],
 			],
 		},
-		64: {
+		52: {
 			note: 'e',
 			keyIds: [['b-main', 'c-main', 'g-main', 'f-main', 'e-main']],
 		},
-		65: {
+		53: {
 			note: 'f',
 			keyIds: [['b-main', 'c-main', 'g-main', 'f-main']],
 		},
-		66: {
+		54: {
 			note: 'f#/gb',
 			keyIds: [['b-main', 'c-main', 'g-main', 'e-main']],
 		},
-		67: {
+		55: {
 			note: 'g',
 			keyIds: [['b-main', 'c-main', 'g-main']],
 		},
-		68: {
+		56: {
 			note: 'g#/ab',
 			keyIds: [['b-main', 'c-main', 'g-main', 'g#/ab-pinky']],
 		},
-		69: {
+		57: {
 			note: 'a',
 			keyIds: [['b-main', 'c-main']],
 		},
-		70: {
+		58: {
 			note: 'a#/bb',
 			keyIds: [
 				['b-main', 'b-bis'],
@@ -367,70 +369,66 @@ export const fingerings: any = {
 				['b-main', 'g-main'],
 			],
 		},
-		71: {
+		59: {
 			note: 'b',
 			keyIds: [['b-main']],
 		},
 
-		// 5th octave
-		72: {
+		// 4th octave
+		60: {
 			note: 'c',
 			keyIds: [['c-main'], ['b-main', 'c-side']],
 		},
-		73: {
+		61: {
 			note: 'c#/db',
 			keyIds: [['']],
 		},
-		74: {
+		62: {
 			note: 'd',
 			keyIds: [
-				'b-main',
-				'c-main',
-				'g-main',
-				'f-main',
-				'e-main',
-				'd-main',
-				'octave',
+				['b-main', 'c-main', 'g-main', 'f-main', 'e-main', 'd-main', 'octave'],
 			],
 		},
-		75: {
+		63: {
 			note: 'd#/eb',
 			keyIds: [
-				'b-main',
-				'c-main',
-				'g-main',
-				'f-main',
-				'e-main',
-				'd-main',
-				'd#/eb-pinky',
-				'octave',
+				[
+					'b-main',
+					'c-main',
+					'g-main',
+					'f-main',
+					'e-main',
+					'd-main',
+					'd#/eb-pinky',
+					'octave',
+				],
 			],
 		},
-		76: {
+		64: {
 			note: 'e',
-			keyIds: ['b-main', 'c-main', 'g-main', 'f-main', 'e-main', 'octave'],
+			keyIds: [['b-main', 'c-main', 'g-main', 'f-main', 'e-main', 'octave']],
 		},
-		77: {
+		65: {
 			note: 'f',
-			keyIds: ['b-main', 'c-main', 'g-main', 'f-main', 'octave'],
+			keyIds: [['b-main', 'c-main', 'g-main', 'f-main', 'octave']],
 		},
-		78: {
+		66: {
 			note: 'f#/gb',
-			keyIds: ['b-main', 'c-main', 'g-main', 'e-main', 'octave'],
+			keyIds: [['b-main', 'c-main', 'g-main', 'e-main', 'octave']],
 		},
-		79: {
+		67: {
 			note: 'g',
-			keyIds: ['b-main', 'c-main', 'g-main', 'octave'],
+			keyIds: [['b-main', 'c-main', 'g-main', 'octave']],
 		},
-		80: {
+		68: {
 			note: 'g#/ab',
-			keyIds: ['b-main', 'c-main', 'g-main', 'g#/ab-pinky', 'octave'],
+			keyIds: [['b-main', 'c-main', 'g-main', 'g#/ab-pinky', 'octave']],
 		},
-		81: {
+		69: {
 			note: 'a',
-			keyIds: ['b-main', 'c-main', 'octave'],
+			keyIds: [['b-main', 'c-main', 'octave']],
 		},
-		82: {
+		70: {
 			note: 'a#/bb',
 			keyIds: [
 				['b-main', 'b-bis', 'octave'],
@@ -439,58 +437,58 @@ export const fingerings: any = {
 				['b-main', 'g-main', 'octave'],
 			],
 		},
-		83: {
+		71: {
 			note: 'b',
 			keyIds: [['b-main', 'octave']],
 		},
 
-		// 6th octave
-		84: {
+		// 5th octave
+		72: {
 			note: 'c',
 			keyIds: [
 				['c-main', 'octave'],
 				['b-main', 'c-side', 'octave'],
 			],
 		},
-		85: {
+		73: {
 			note: 'c#/db',
 			keyIds: [['octave']],
 		},
-		86: {
+		74: {
 			note: 'd',
 			keyIds: [['d-palm', 'octave']],
 		},
-		87: {
+		75: {
 			note: 'd#/eb',
 			keyIds: [['d-palm', 'd#/eb-palm', 'octave']],
 		},
-		88: {
+		76: {
 			note: 'e',
 			keyIds: [
 				['d-palm', 'd#/eb-palm', 'e-side', 'octave'],
 				['f-fork', 'b-main', 'c-main'],
 			],
 		},
-		89: {
+		77: {
 			note: 'f',
 			keyIds: [
 				['d-palm', 'd#/eb-palm', 'f-palm', 'e-side', 'octave'],
 				['f-fork', 'c-main', 'octave'],
 			],
 		},
-		90: {
+		78: {
 			note: 'f#/gb',
 			keyIds: [['f-fork', 'c-main', 'octave']],
 		},
-		91: {
+		79: {
 			note: 'g',
 			keyIds: [['f-fork', 'c-main', 'g-main', 'octave']],
 		},
-		92: {
+		80: {
 			note: 'g#/ab',
 			keyIds: [['f-fork', 'c-main', 'g-main', 'g#/ab-pinky', 'octave']],
 		},
-		93: {
+		81: {
 			note: 'a',
 			keyIds: [['f-fork', 'c-main', 'octave']],
 		},

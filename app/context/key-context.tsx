@@ -14,8 +14,8 @@ export interface KeyContextProps {
 	setCurrentOctave: (octave: number) => void
 	currentFingerings: number[]
 	setCurrentFingerings: (fingering: string[]) => void
-	selectedFingering: number[]
-	setSelectedFingering: (fingering: number[]) => void
+	selectedFingering: number
+	setSelectedFingering: (fingering: number) => void
 }
 
 export const KeyContext = createContext({
