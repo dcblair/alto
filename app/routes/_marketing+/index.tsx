@@ -1,4 +1,9 @@
-import { acceptedKeys, fingerings, keyMap } from '#app/constants/keys.js'
+import {
+	acceptedKeys,
+	fingerings,
+	keyMap,
+	midiNoteMap,
+} from '#app/constants/keys.js'
 import { type MetaFunction } from '@remix-run/node'
 import { Canvas } from '@react-three/fiber'
 import { useContext, useEffect, useState } from 'react'
@@ -19,6 +24,8 @@ export default function Index() {
 		note,
 		setNote,
 		setSelectedFingering,
+		currentFingerings,
+		setCurrentFingerings,
 		currentOctave,
 		setCurrentOctave,
 	} = useContext(KeyContext)
@@ -26,7 +33,8 @@ export default function Index() {
 	// alternatively, use midi against note with octave!
 	const [selectedKey, setSelectedKey] = useState('')
 
-	const currentFingerings = fingerings.octave[currentOctave][note].keyIds
+	const midiNote = midiNoteMap[`${note}${currentOctave}`]!
+
 	const hasAlternateFingerings = currentFingerings.length > 1
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
@@ -34,6 +42,8 @@ export default function Index() {
 			if (acceptedKeys.includes(e.key)) {
 				setSelectedKey(e.key)
 				setNote(keyMap[e.key]!.note)
+				const currentFingerings = fingerings.midiNote[midiNote].keyIds
+				setCurrentFingerings(currentFingerings)
 			}
 
 			// handle alternate fingering selection
@@ -89,7 +99,7 @@ export default function Index() {
 			<span className="text-center text-3xl">{mappedNote}</span>
 			<div className="flex space-x-3">
 				{hasAlternateFingerings &&
-					currentFingerings.map((fingering: Array<number>, index: number) => (
+					currentFingerings.map((fingering: Array<string>, index: number) => (
 						<div className="flex flex-col space-y-2 md:w-36">
 							<span className="text-center text-xl">{fingering}</span>
 							<Button onClick={() => handleSelectFingering(index)}>
