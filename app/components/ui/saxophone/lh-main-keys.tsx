@@ -31,11 +31,15 @@ const LeftHandMainKey = ({
 
 	const isForkOrBis = keyId === 'f-fork' || keyId === 'b-bis'
 	return (
-		<mesh {...props}>
-			<circleGeometry args={[isForkOrBis ? 0.45 : 0.6, 32]} />
-			<meshBasicMaterial color={isPressed ? 'red' : 'gold'} />
-			{/* <ringGeometry args={[3, 0.2, 32]} /> */}
-		</mesh>
+		<group>
+			<mesh {...props}>
+				<circleGeometry args={[isForkOrBis ? 0.45 : 0.6, 32]} />
+				<meshBasicMaterial color={isPressed ? 'red' : 'gold'} />
+			</mesh>
+			<mesh {...props}>
+				<ringGeometry args={[5, 2.9, 30]} />
+			</mesh>
+		</group>
 	)
 }
 

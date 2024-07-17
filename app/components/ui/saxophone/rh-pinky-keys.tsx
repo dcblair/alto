@@ -24,8 +24,6 @@ const RightHandPinkyKey = ({
 }: RightHandPinkyKeyProps) => {
 	const { currentFingerings, selectedFingering } = useContext(KeyContext)
 
-	console.log(selectedFingering)
-
 	const isPressed = determineIsPressed(
 		currentFingerings,
 		keyId,
