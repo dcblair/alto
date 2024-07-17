@@ -42,11 +42,11 @@ const RightHandSideKeys = ({ ...props }: RightHandSideKeysProps) => {
 	const RightHandSideKeys = keyLayout['rh-side']
 
 	return (
-		<group {...props}>
+		<>
 			{/* e, c and a#/bb right-hand side keys */}
 			{RightHandSideKeys &&
 				RightHandSideKeys.toReversed().map(({ group, keyId, name }, index) => (
-					<>
+					<group key={keyId} {...props}>
 						<RightHandSideKey
 							position={[0, index, 0]}
 							key={keyId}
@@ -57,9 +57,9 @@ const RightHandSideKeys = ({ ...props }: RightHandSideKeysProps) => {
 						<Text fontSize={0.4} position={[-2, index, 0]}>
 							{keyId}
 						</Text>
-					</>
+					</group>
 				))}
-		</group>
+		</>
 	)
 }
 

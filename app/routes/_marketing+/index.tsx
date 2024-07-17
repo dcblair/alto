@@ -128,6 +128,8 @@ export default function Index() {
 		setSelectedFingering(index)
 	}
 
+	const controlsEnabled = false
+
 	return (
 		<main className="font-poppins mt-2 grid h-full place-items-center">
 			<p className="text-center text-lg">play some notes on your keyboard</p>
@@ -155,7 +157,7 @@ export default function Index() {
 					<LeftHandPalmKeys position={[-7, 1, 0]} />
 					<RightHandSideKeys position={[-9.5, -4, 0]} />
 					<OctaveKey position={[-4, -0.5, 0]} />
-					<Controls enableZoom={false} />
+					{controlsEnabled ? <Controls enableZoom={false} /> : null}
 				</Suspense>
 			</Canvas>
 		</main>
