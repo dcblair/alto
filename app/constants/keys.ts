@@ -1,20 +1,20 @@
 // querty midi keyboard piano keys
 export const acceptedKeys: string[] = [
 	'a', // c
+	'w', // c#/db
 	's', // d
+	'e', // d#/eb
 	'd', // e
 	'f', // f
+	't', // f#/gb
 	'g', // g
+	'y', // g#/ab
 	'h', // a
+	'u', // a#/bb
 	'j', // b
 	'k', // c
-	'l', // d
-	'w', // c#/db
-	'e', // d#/eb
-	't', // f#/gb
-	'y', // g#/ab
-	'u', // a#/bb
 	'o', // c#/db
+	'l', // d
 	'p', // d#/eb
 ]
 

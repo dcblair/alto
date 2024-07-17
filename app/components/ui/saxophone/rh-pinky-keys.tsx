@@ -46,10 +46,9 @@ const RightHandPinkyKeys = ({ ...props }: RightHandPinkyKeysProps) => {
 			{/* d#/eb and a#/bb right-hand pinky keys */}
 			{RightHandPinkyKeys &&
 				RightHandPinkyKeys.toReversed().map(({ group, keyId, name }, index) => (
-					<>
+					<group key={keyId}>
 						<RightHandPinkyKey
 							position={[0, index, 0]}
-							key={keyId}
 							group={group}
 							name={name}
 							keyId={keyId}
@@ -57,7 +56,7 @@ const RightHandPinkyKeys = ({ ...props }: RightHandPinkyKeysProps) => {
 						<Text fontSize={0.4} position={[-2.7, index, 0]}>
 							{keyId}
 						</Text>
-					</>
+					</group>
 				))}
 		</group>
 	)

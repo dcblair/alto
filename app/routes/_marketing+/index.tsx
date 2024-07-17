@@ -17,16 +17,18 @@ import RightHandSideKeys from '#app/components/ui/saxophone/rh-side-keys.js'
 import { Button } from '#app/components/ui/button.js'
 import { KeyContext } from '#app/context/key-context.js'
 import SaxBody from '#app/components/ui/saxophone/sax-body.js'
-import { OrbitControls } from '@react-three/drei'
+import { OrbitControls, OrbitControlsProps } from '@react-three/drei'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
-const Controls = () => {
+interface ControlsProps extends OrbitControlsProps {}
+
+const Controls = ({ ...props }: ControlsProps) => {
 	const {
 		camera,
 		gl: { domElement },
 	} = useThree()
-	return <OrbitControls args={[camera, domElement]} />
+	return <OrbitControls {...props} args={[camera, domElement]} />
 }
 
 export default function Index() {
@@ -37,16 +39,18 @@ export default function Index() {
 		currentFingerings,
 		setCurrentFingerings,
 		currentOctave,
-		setCurrentOctave,
 	} = useContext(KeyContext)
 	const [selectedKey, setSelectedKey] = useState('')
-	const midiNote = midiNoteMap?.[`${note}${currentOctave}`]!
+	// default is 48, which is C3 — midi
+	const [transpositionPoint, setTranspositionPoint] = useState(46)
+	const [currentMidiNote, setCurrentMidiNote] = useState(46)
+	// current note layout - based on octave / transposition shift
+	const noteLayout = acceptedKeys.map((key, index) => ({
+		key,
+		midiNote: transpositionPoint + index,
+	}))
 
 	const hasAlternateFingerings = currentFingerings.length > 1
-	useEffect(() => {
-		const newCurrentFingerings = fingerings.midiNote[midiNote]?.keyIds || [[]]
-		setCurrentFingerings(newCurrentFingerings)
-	}, [midiNote])
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
@@ -55,8 +59,18 @@ export default function Index() {
 				// reset fingering index
 				setSelectedFingering(0)
 				setSelectedKey(e.key)
+
+				const midiNote =
+					noteLayout.find((note) => note.key === e.key)?.midiNote || 0
+				setCurrentMidiNote(midiNote)
+
 				const parsedNote = keyMap[e.key]!.note
 				setNote(parsedNote)
+
+				// set current fingering
+				const newCurrentFingerings = fingerings.midiNote[currentMidiNote]
+					?.keyIds || [[]]
+				setCurrentFingerings(newCurrentFingerings)
 			}
 
 			// handle alternate fingering selection
@@ -83,18 +97,30 @@ export default function Index() {
 	}, [])
 
 	const handleOctaveChange = (e: KeyboardEvent) => {
-		if (e.key === 'z' && currentOctave > 1) {
-			setCurrentOctave(currentOctave - 1)
-		} else if (e.key === 'x' && currentOctave < 8) {
-			setCurrentOctave(currentOctave + 1)
+		if (e.key === 'z' && transpositionPoint >= 12) {
+			setTranspositionPoint(transpositionPoint - 12)
+		} else if (e.key === 'x' && transpositionPoint <= 115) {
+			setTranspositionPoint(transpositionPoint + 12)
+		}
+	}
+
+	const handleTranspose = (e: KeyboardEvent) => {
+		if (e.key === 'n' && transpositionPoint >= 0) {
+			setTranspositionPoint(transpositionPoint - 1)
+		} else if (e.key === 'm' && transpositionPoint < 127) {
+			setTranspositionPoint(transpositionPoint + 1)
 		}
 	}
 
 	useEffect(() => {
 		document.addEventListener('keydown', handleOctaveChange)
+		document.addEventListener('keydown', handleTranspose)
 
-		return () => document.removeEventListener('keydown', handleOctaveChange)
-	}, [currentOctave])
+		return () => {
+			document.removeEventListener('keydown', handleOctaveChange)
+			document.removeEventListener('keydown', handleTranspose)
+		}
+	}, [currentOctave, transpositionPoint])
 
 	const mappedNote = `${note} ${currentOctave}`
 
@@ -117,10 +143,7 @@ export default function Index() {
 						</div>
 					))}
 			</div>
-			<Canvas
-				camera={{ fov: 75, far: 1000, position: [0, 1, 10] }}
-				className="h-full w-full"
-			>
+			<Canvas camera={{ position: [0, -2, 11] }} className="h-full w-full">
 				<Suspense fallback={null}>
 					<spotLight position={[10, 10, 10]} />
 					<ambientLight intensity={0.5} />
@@ -132,7 +155,7 @@ export default function Index() {
 					<LeftHandPalmKeys position={[-7, 1, 0]} />
 					<RightHandSideKeys position={[-9.5, -4, 0]} />
 					<OctaveKey position={[-4, -0.5, 0]} />
-					<Controls />
+					<Controls enableZoom={false} />
 				</Suspense>
 			</Canvas>
 		</main>

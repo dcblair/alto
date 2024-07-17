@@ -46,7 +46,7 @@ const LeftHandPinkyKeys = ({ ...props }: LeftHandPinkyKeysProps) => {
 			{/* g#/ab, c#/db, b, and a#/bb left-hand pinky keys */}
 			{LeftHandPinkyKeys &&
 				LeftHandPinkyKeys.toReversed().map(({ group, keyId, name }) => (
-					<>
+					<group key={keyId}>
 						<LeftHandPinkyKey
 							position={[
 								keyId === 'b-pinky' ? 1 : keyId === 'c#/db-pinky' ? -1 : 0,
@@ -57,7 +57,6 @@ const LeftHandPinkyKeys = ({ ...props }: LeftHandPinkyKeysProps) => {
 										: 0,
 								0,
 							]}
-							key={keyId}
 							group={group}
 							name={name}
 							keyId={keyId}
@@ -76,7 +75,7 @@ const LeftHandPinkyKeys = ({ ...props }: LeftHandPinkyKeysProps) => {
 						>
 							{keyId}
 						</Text>
-					</>
+					</group>
 				))}
 		</group>
 	)

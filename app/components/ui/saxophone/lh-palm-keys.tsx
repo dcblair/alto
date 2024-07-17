@@ -46,14 +46,13 @@ const LeftHandPalmKeys = ({ ...props }: LeftHandPalmKeysProps) => {
 			{/* d, d#/eb and f left-hand palm keys */}
 			{LeftHandPalmKeys &&
 				LeftHandPalmKeys.toReversed().map(({ group, keyId, name }) => (
-					<>
+					<group key={keyId}>
 						<LeftHandPalmKey
 							position={[
 								keyId === 'd-palm' ? 0 : keyId === 'd#/eb-palm' ? 1 : 2,
 								keyId === 'd-palm' ? 1.2 : keyId === 'd#/eb-palm' ? 2 : 1,
 								0,
 							]}
-							key={keyId}
 							group={group}
 							name={name}
 							keyId={keyId}
@@ -68,7 +67,7 @@ const LeftHandPalmKeys = ({ ...props }: LeftHandPalmKeysProps) => {
 						>
 							{keyId}
 						</Text>
-					</>
+					</group>
 				))}
 		</group>
 	)
