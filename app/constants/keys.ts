@@ -72,23 +72,23 @@ export const midiNoteMap: Record<string, number> = {
 	g6: 91,
 }
 
-export const keyMap: Record<string, { note: string; midiNote: number }> = {
-	a: { note: 'c', midiNote: 48 },
-	w: { note: 'c#/db', midiNote: 49 },
-	s: { note: 'd', midiNote: 50 },
-	e: { note: 'd#/eb', midiNote: 51 },
-	d: { note: 'e', midiNote: 52 },
-	f: { note: 'f', midiNote: 53 },
-	t: { note: 'f#/gb', midiNote: 54 },
-	g: { note: 'g', midiNote: 55 },
-	y: { note: 'g#/ab', midiNote: 56 },
-	h: { note: 'a', midiNote: 57 },
-	u: { note: 'a#/bb', midiNote: 58 },
-	j: { note: 'b', midiNote: 59 },
-	k: { note: 'c', midiNote: 60 },
-	o: { note: 'c#/db', midiNote: 61 },
-	l: { note: 'd', midiNote: 62 },
-	p: { note: 'd#/eb', midiNote: 63 },
+export const keyMap: Record<string, { note: string }> = {
+	a: { note: 'c' },
+	w: { note: 'c#/db' },
+	s: { note: 'd' },
+	e: { note: 'd#/eb' },
+	d: { note: 'e' },
+	f: { note: 'f' },
+	t: { note: 'f#/gb' },
+	g: { note: 'g' },
+	y: { note: 'g#/ab' },
+	h: { note: 'a' },
+	u: { note: 'a#/bb' },
+	j: { note: 'b' },
+	k: { note: 'c' },
+	o: { note: 'c#/db' },
+	l: { note: 'd' },
+	p: { note: 'd#/eb' },
 }
 
 // todo: finish keyGroups for eventual keyboard saxophone key control
@@ -256,7 +256,7 @@ export const keyLayout: Record<
 // todo: check fingerings
 export const fingerings: any = {
 	midiNote: {
-		// 3rd octave
+		// 2nd octave
 		46: {
 			note: 'a#/bb',
 			keyIds: [

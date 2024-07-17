@@ -44,7 +44,7 @@ export default function Index() {
 
 	const hasAlternateFingerings = currentFingerings.length > 1
 	useEffect(() => {
-		const newCurrentFingerings = fingerings.midiNote[midiNote].keyIds
+		const newCurrentFingerings = fingerings.midiNote[midiNote]?.keyIds || [[]]
 		setCurrentFingerings(newCurrentFingerings)
 	}, [midiNote])
 
@@ -102,13 +102,9 @@ export default function Index() {
 		setSelectedFingering(index)
 	}
 
-	// todo: handle midi note mapping and enabling of correct fingering selection
-	// const midiNote = keyMap[note]!.midiNote
-
 	return (
-		<main className="font-poppins grid h-full place-items-center">
-			<h1 className="text-center text-4xl font-bold">Welcome to Alto Model!</h1>
-			<p className="text-center text-lg">Play some notes on your keyboard!</p>
+		<main className="font-poppins mt-2 grid h-full place-items-center">
+			<p className="text-center text-lg">play some notes on your keyboard</p>
 			<span className="text-center text-3xl">{mappedNote}</span>
 			<div className="flex space-x-3">
 				{hasAlternateFingerings &&

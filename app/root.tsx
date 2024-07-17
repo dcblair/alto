@@ -10,6 +10,7 @@ import {
 	Link,
 	Links,
 	Meta,
+	NavLink,
 	Outlet,
 	Scripts,
 	ScrollRestoration,
@@ -73,7 +74,7 @@ export const links: LinksFunction = () => {
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
 	return [
 		{ title: data ? 'alto' : 'error | alto' },
-		{ name: 'description', content: `alto saxophone thing!` },
+		{ name: 'description', content: `learn saxophone fingerings and notes` },
 	]
 }
 
@@ -207,8 +208,14 @@ function App() {
 			env={data.ENV}
 		>
 			<div className="flex h-screen flex-col justify-between">
-				<header className="container py-6">
-					<nav className="flex flex-wrap items-center justify-between gap-4 sm:flex-nowrap md:gap-8">
+				<header className="container border-b-2 border-white py-6">
+					<nav className="flex flex-wrap items-center justify-between gap-4 px-8 sm:flex-nowrap md:gap-8">
+						<div className="flex text-center">
+							<NavLink className="w-fit" to="/">
+								<h1 className="text-4xl font-bold">alto</h1>
+							</NavLink>
+						</div>
+
 						<div className="ml-auto hidden max-w-sm flex-1 sm:block">
 							{searchBar}
 						</div>
