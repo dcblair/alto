@@ -56,7 +56,7 @@ const RightHandMainKeys = ({ ...props }: RightHandMainKeysProps) => {
 					<group key={keyId} {...props}>
 						<RightHandMainKey
 							position={[
-								keyId === 'f-main-alt' ? -5.5 : 0,
+								keyId === 'f-main-alt' ? -3.5 : 0,
 								keyId === 'f-main-alt' ? index + 2 : index,
 								0,
 							]}
@@ -68,7 +68,7 @@ const RightHandMainKeys = ({ ...props }: RightHandMainKeysProps) => {
 						<Text
 							fontSize={0.4}
 							position={[
-								keyId === 'f-main-alt' ? -7.5 : -2,
+								keyId === 'f-main-alt' ? -5.5 : -2,
 								keyId === 'f-main-alt' ? index + 2 : index,
 								0,
 							]}
