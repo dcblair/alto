@@ -49,11 +49,11 @@ const RightHandMainKeys = ({ ...props }: RightHandMainKeysProps) => {
 	const RightHandMainKeys = keyLayout['rh-main']
 
 	return (
-		<group {...props}>
+		<>
 			{/* f, e, d, and f-alt keys */}
 			{RightHandMainKeys &&
 				RightHandMainKeys.toReversed().map(({ group, keyId, name }, index) => (
-					<>
+					<group key={keyId} {...props}>
 						<RightHandMainKey
 							position={[
 								keyId === 'f-main-alt' ? -5.5 : 0,
@@ -75,9 +75,9 @@ const RightHandMainKeys = ({ ...props }: RightHandMainKeysProps) => {
 						>
 							{keyId}
 						</Text>
-					</>
+					</group>
 				))}
-		</group>
+		</>
 	)
 }
 

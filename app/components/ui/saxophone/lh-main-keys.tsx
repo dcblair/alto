@@ -54,14 +54,13 @@ const LeftHandMainKeys = ({ ...props }: LeftHandMainKeysProps) => {
 	const leftHandMainKeys = keyLayout['lh-main']
 
 	return (
-		<group {...props}>
+		<>
 			{/* fork f, b, bis b, c, and g keys */}
 			{leftHandMainKeys &&
 				leftHandMainKeys.toReversed().map(({ group, keyId, name }, index) => (
-					<>
+					<group key={keyId} {...props}>
 						<LeftHandMainKey
 							position={[0, index, 0]}
-							key={keyId}
 							group={group}
 							name={name}
 							keyId={keyId}
@@ -69,9 +68,9 @@ const LeftHandMainKeys = ({ ...props }: LeftHandMainKeysProps) => {
 						<Text fontSize={0.4} position={[-2, index, 0]}>
 							{keyId}
 						</Text>
-					</>
+					</group>
 				))}
-		</group>
+		</>
 	)
 }
 
