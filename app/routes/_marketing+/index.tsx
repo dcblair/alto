@@ -38,19 +38,20 @@ export default function Index() {
 		setSelectedFingering,
 		currentFingerings,
 		setCurrentFingerings,
-		currentOctave,
 	} = useContext(KeyContext)
 	const [selectedKey, setSelectedKey] = useState('')
 	// default is 48, which is C3 — midi
-	const [transpositionPoint, setTranspositionPoint] = useState(46)
-	const [currentMidiNote, setCurrentMidiNote] = useState(46)
-	// current note layout - based on octave / transposition shift
-	const noteLayout = acceptedKeys.map((key, index) => ({
-		key,
-		midiNote: transpositionPoint + index,
-	}))
+	const [transpositionPoint, setTranspositionPoint] = useState(48)
+	const [currentMidiNote, setCurrentMidiNote] = useState(48)
 
 	const hasAlternateFingerings = currentFingerings.length > 1
+
+	// set fingerings of currently selected note
+	useEffect(() => {
+		const newCurrentFingerings = fingerings.midiNote[currentMidiNote]
+			?.keyIds || [[]]
+		setCurrentFingerings(newCurrentFingerings)
+	}, [currentMidiNote])
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
@@ -60,17 +61,17 @@ export default function Index() {
 				setSelectedFingering(0)
 				setSelectedKey(e.key)
 
+				// current note layout - based on octave / transposition shift
+				const noteLayout = acceptedKeys.map((key, index) => ({
+					key,
+					midiNote: transpositionPoint + index,
+				}))
 				const midiNote =
 					noteLayout.find((note) => note.key === e.key)?.midiNote || 0
 				setCurrentMidiNote(midiNote)
 
 				const parsedNote = keyMap[e.key]!.note
 				setNote(parsedNote)
-
-				// set current fingering
-				const newCurrentFingerings = fingerings.midiNote[currentMidiNote]
-					?.keyIds || [[]]
-				setCurrentFingerings(newCurrentFingerings)
 			}
 
 			// handle alternate fingering selection
@@ -99,16 +100,20 @@ export default function Index() {
 	const handleOctaveChange = (e: KeyboardEvent) => {
 		if (e.key === 'z' && transpositionPoint >= 12) {
 			setTranspositionPoint(transpositionPoint - 12)
+			setCurrentMidiNote(currentMidiNote - 12)
 		} else if (e.key === 'x' && transpositionPoint <= 115) {
 			setTranspositionPoint(transpositionPoint + 12)
+			setCurrentMidiNote(currentMidiNote + 12)
 		}
 	}
 
 	const handleTranspose = (e: KeyboardEvent) => {
 		if (e.key === 'n' && transpositionPoint >= 0) {
 			setTranspositionPoint(transpositionPoint - 1)
+			setCurrentMidiNote(currentMidiNote - 1)
 		} else if (e.key === 'm' && transpositionPoint < 127) {
 			setTranspositionPoint(transpositionPoint + 1)
+			setCurrentMidiNote(currentMidiNote + 1)
 		}
 	}
 
@@ -120,50 +125,49 @@ export default function Index() {
 			document.removeEventListener('keydown', handleOctaveChange)
 			document.removeEventListener('keydown', handleTranspose)
 		}
-	}, [currentOctave, transpositionPoint])
-
-	const mappedNote = `${note} ${currentOctave}`
+	}, [transpositionPoint])
 
 	const handleSelectFingering = (index: number) => {
 		setSelectedFingering(index)
 	}
+
+	const currentOctave = fingerings.midiNote[currentMidiNote]?.octave ?? ''
+	const noteWithOctave = `${note} ${currentOctave}`
 
 	const controlsEnabled = true
 
 	return (
 		<main className="font-poppins mt-2 grid h-full place-items-center">
 			<p className="text-center text-lg">play some notes on your keyboard</p>
-			<span className="text-center text-3xl">{mappedNote}</span>
+			<span className="text-center text-3xl">{noteWithOctave}</span>
 			<div className="flex space-x-3">
 				{hasAlternateFingerings &&
 					currentFingerings.map((fingering: Array<string>, index: number) => (
-						<div className="flex flex-col space-y-2 md:w-36">
-							<span className="text-center text-xl">{fingering}</span>
+						<div className="flex flex-col space-y-2 md:w-36" key={index}>
+							<span className="text-center text-xs">{fingering}</span>
 							<Button onClick={() => handleSelectFingering(index)}>
 								{index}
 							</Button>
 						</div>
 					))}
 			</div>
-			<Canvas
-				camera={{ position: [0, 0, 25] }}
-				className="h-full w-full"
-				resize={{ scroll: false }}
-			>
-				<Suspense fallback={null}>
-					<spotLight position={[10, 10, 10]} />
-					<ambientLight intensity={0.5} />
-					<SaxBody position={[0, 0, -1]} />
-					<LeftHandMainKeys position={[0, -1, 0]} />
-					<RightHandMainKeys position={[0, -5.5, 0]} />
-					<RightHandPinkyKeys position={[0, -7.5, 0]} />
-					<LeftHandPinkyKeys position={[3, -3.5, 0]} />
-					<LeftHandPalmKeys position={[-7, 1, 0]} />
-					<RightHandSideKeys position={[-9.5, -4, 0]} />
-					<OctaveKey position={[-4, -0.5, 0]} />
-					{controlsEnabled ? <Controls enableZoom={false} /> : null}
-				</Suspense>
-			</Canvas>
+			<div className="relative h-[600px] w-full">
+				<Canvas camera={{ position: [0, 0, 13] }} resize={{ scroll: false }}>
+					<Suspense fallback={null}>
+						<spotLight position={[10, 10, 10]} />
+						<ambientLight intensity={0.5} />
+						<SaxBody position={[0, 0, -1]} />
+						<LeftHandMainKeys position={[0, -1, 0]} />
+						<RightHandMainKeys position={[0, -5.5, 0]} />
+						<RightHandPinkyKeys position={[0, -7.5, 0]} />
+						<LeftHandPinkyKeys position={[3, -3.5, 0]} />
+						<LeftHandPalmKeys position={[-7, 1, 0]} />
+						<RightHandSideKeys position={[-9.5, -4, 0]} />
+						<OctaveKey position={[-4, -0.5, 0]} />
+						{controlsEnabled ? <Controls enableZoom={false} /> : null}
+					</Suspense>
+				</Canvas>
+			</div>
 		</main>
 	)
 }
