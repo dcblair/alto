@@ -46,6 +46,12 @@ export default function Index() {
 
 	const hasAlternateFingerings = currentFingerings.length > 1
 
+	// current note layout - based on octave / transposition shift
+	const noteLayout = acceptedKeys.map((key, index) => ({
+		key,
+		midiNote: transpositionPoint + index,
+	}))
+
 	// set fingerings of currently selected note
 	useEffect(() => {
 		const newCurrentFingerings = fingerings.midiNote[currentMidiNote]
@@ -61,11 +67,6 @@ export default function Index() {
 				setSelectedFingering(0)
 				setSelectedKey(e.key)
 
-				// current note layout - based on octave / transposition shift
-				const noteLayout = acceptedKeys.map((key, index) => ({
-					key,
-					midiNote: transpositionPoint + index,
-				}))
 				const midiNote =
 					noteLayout.find((note) => note.key === e.key)?.midiNote || 0
 				setCurrentMidiNote(midiNote)
@@ -91,7 +92,6 @@ export default function Index() {
 		}
 
 		document.addEventListener('keydown', handleKeyDown)
-		setSelectedFingering(0)
 
 		// cleanup, cleanup, everybody do your share
 		return () => document.removeEventListener('keydown', handleKeyDown)
@@ -134,6 +134,8 @@ export default function Index() {
 	const currentOctave = fingerings.midiNote[currentMidiNote]?.octave ?? ''
 	const noteWithOctave = `${note} ${currentOctave}`
 
+	// console.log(currentOctave, currentMidiNote)
+
 	const controlsEnabled = true
 
 	return (
@@ -152,18 +154,22 @@ export default function Index() {
 					))}
 			</div>
 			<div className="relative h-[600px] w-full">
-				<Canvas camera={{ position: [0, 0, 13] }} resize={{ scroll: false }}>
+				<Canvas
+					camera={{ fov: 70, position: [0, 0, 13] }}
+					resize={{ scroll: false }}
+					gl={{ antialias: true }}
+				>
 					<Suspense fallback={null}>
 						<spotLight position={[10, 10, 10]} />
 						<ambientLight intensity={0.5} />
-						<SaxBody position={[0, 0, -1]} />
-						<LeftHandMainKeys position={[0, -1, 0]} />
-						<RightHandMainKeys position={[0, -5.5, 0]} />
-						<RightHandPinkyKeys position={[0, -7.5, 0]} />
-						<LeftHandPinkyKeys position={[3, -3.5, 0]} />
-						<LeftHandPalmKeys position={[-7, 1, 0]} />
-						<RightHandSideKeys position={[-9.5, -4, 0]} />
-						<OctaveKey position={[-4, -0.5, 0]} />
+						<SaxBody position={[0, 2, -1]} />
+						<LeftHandMainKeys position={[0, 2, 0]} />
+						<RightHandMainKeys position={[0, -2.6, 0]} />
+						<RightHandPinkyKeys position={[0, -4, 0]} />
+						<LeftHandPinkyKeys position={[3, 1.5, 0]} />
+						<LeftHandPalmKeys position={[2, 3.7, 0]} />
+						<RightHandSideKeys position={[-7.5, -2, 0]} />
+						<OctaveKey position={[-4, 2.5, 0]} />
 						{controlsEnabled ? <Controls enableZoom={false} /> : null}
 					</Suspense>
 				</Canvas>

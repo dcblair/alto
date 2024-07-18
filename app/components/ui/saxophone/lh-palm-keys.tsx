@@ -40,7 +40,6 @@ const LeftHandPalmKey = ({
 
 const LeftHandPalmKeys = ({ ...props }: LeftHandPalmKeysProps) => {
 	const LeftHandPalmKeys = keyLayout['lh-palm']
-
 	return (
 		<>
 			{/* d, d#/eb and f left-hand palm keys */}
@@ -60,7 +59,7 @@ const LeftHandPalmKeys = ({ ...props }: LeftHandPalmKeysProps) => {
 						<Text
 							fontSize={0.4}
 							position={[
-								keyId === 'd-palm' ? -4 : keyId === 'd#/eb-palm' ? -2.5 : -1.7,
+								keyId === 'd-palm' ? 3.9 : keyId === 'd#/eb-palm' ? 4.5 : 5.5,
 								keyId === 'd-palm' ? 1.2 : keyId === 'd#/eb-palm' ? 2 : 1,
 								0,
 							]}
