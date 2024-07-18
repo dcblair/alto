@@ -17,7 +17,7 @@ import RightHandSideKeys from '#app/components/ui/saxophone/rh-side-keys.js'
 import { Button } from '#app/components/ui/button.js'
 import { KeyContext } from '#app/context/key-context.js'
 import SaxBody from '#app/components/ui/saxophone/sax-body.js'
-import { OrbitControls, OrbitControlsProps } from '@react-three/drei'
+import { OrbitControls, type OrbitControlsProps } from '@react-three/drei'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
@@ -28,7 +28,7 @@ const Controls = ({ ...props }: ControlsProps) => {
 		camera,
 		gl: { domElement },
 	} = useThree()
-	return <OrbitControls {...props} args={[camera, domElement]} />
+	return <OrbitControls args={[camera, domElement]} {...props} />
 }
 
 export default function Index() {
@@ -128,7 +128,7 @@ export default function Index() {
 		setSelectedFingering(index)
 	}
 
-	const controlsEnabled = false
+	const controlsEnabled = true
 
 	return (
 		<main className="font-poppins mt-2 grid h-full place-items-center">
@@ -145,7 +145,11 @@ export default function Index() {
 						</div>
 					))}
 			</div>
-			<Canvas camera={{ position: [0, -2, 11] }} className="h-full w-full">
+			<Canvas
+				camera={{ position: [0, 0, 25] }}
+				className="h-full w-full"
+				resize={{ scroll: false }}
+			>
 				<Suspense fallback={null}>
 					<spotLight position={[10, 10, 10]} />
 					<ambientLight intensity={0.5} />
