@@ -6,7 +6,14 @@ import {
 } from '#app/constants/keys.js'
 import { type MetaFunction } from '@remix-run/node'
 import { Canvas, useThree } from '@react-three/fiber'
-import { Suspense, useContext, useEffect, useReducer, useState } from 'react'
+import {
+	Suspense,
+	useContext,
+	useEffect,
+	useMemo,
+	useReducer,
+	useState,
+} from 'react'
 import LeftHandMainKeys from '#app/components/ui/saxophone/lh-main-keys.js'
 import RightHandMainKeys from '#app/components/ui/saxophone/rh-main-keys.js'
 import RightHandPinkyKeys from '#app/components/ui/saxophone/rh-pinky-keys.js'
@@ -43,34 +50,26 @@ export default function Index() {
 		dispatch,
 	} = useContext(KeyContext)
 	const [selectedKey, setSelectedKey] = useState('')
-	// default is 48, which is C3 — midi
-	const [currentKeyLayout, setCurrentKeyLayout] = useState(
-		acceptedKeys.map((key, index) => ({
+
+	const currentKeyLayout = useMemo(() => {
+		return acceptedKeys.map((key, index) => ({
 			key,
 			midiNote: transpositionPoint + index,
-		})),
-	)
+		}))
+	}, [transpositionPoint])
 
 	const hasAlternateFingerings = currentFingerings.length > 1
 
 	useEffect(() => {
-		// current note layout - based on octave / transposition shift
-		const noteLayout = acceptedKeys.map((key, index) => ({
-			key,
-			midiNote: transpositionPoint + index,
-		}))
-		setCurrentKeyLayout(noteLayout)
-	}, [transpositionPoint])
-
-	// set fingerings of currently selected note
-	useEffect(() => {
+		// set fingerings of currently selected note
 		const newCurrentFingerings = fingerings.midiNote[currentMidiNote]
 			?.keyIds || [[]]
-		dispatch({ type: 'setCurrentFingerings', payload: newCurrentFingerings })
-	}, [currentMidiNote])
+		dispatch({
+			type: 'setCurrentFingerings',
+			payload: newCurrentFingerings,
+		})
+	}, [currentMidiNote, dispatch])
 
-	// issue useeffect is decoupled from handleoctave change and transpose, so the midi note is not updating
-	// need to fix this
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			// handle note selection
@@ -79,9 +78,9 @@ export default function Index() {
 				dispatch({ type: 'setSelectedFingering', payload: 0 })
 				setSelectedKey(e.key)
 
+				// set current midi note
 				const midiNote =
 					currentKeyLayout.find((note) => note.key === e.key)?.midiNote || 0
-
 				dispatch({ type: 'setCurrentMidiNote', payload: midiNote })
 
 				const parsedNote = keyMap[e.key]!.note
@@ -94,6 +93,7 @@ export default function Index() {
 				hasAlternateFingerings &&
 				Number(e.key) < currentFingerings.length
 			) {
+				console.log(e.key, 'key al;skdjf;alksdf')
 				dispatch({ type: 'setSelectedFingering', payload: Number(e.key) })
 			}
 
@@ -108,20 +108,33 @@ export default function Index() {
 
 		// cleanup, cleanup, everybody do your share
 		return () => document.removeEventListener('keydown', handleKeyDown)
-	}, [])
+	}, [
+		currentKeyLayout,
+		currentFingerings,
+		keyMap,
+		currentMidiNote,
+		dispatch,
+		selectedKey,
+		transpositionPoint,
+		note,
+	])
 
 	const handleOctaveChange = (e: KeyboardEvent) => {
 		if (e.key === 'z' && transpositionPoint >= 12) {
+			dispatch({ type: 'setSelectedFingering', payload: 0 })
 			dispatch({ type: 'octaveDown' })
 		} else if (e.key === 'x' && transpositionPoint <= 115) {
+			dispatch({ type: 'setSelectedFingering', payload: 0 })
 			dispatch({ type: 'octaveUp' })
 		}
 	}
 
 	const handleTranspose = (e: KeyboardEvent) => {
 		if (e.key === 'n' && transpositionPoint >= 0) {
+			dispatch({ type: 'setSelectedFingering', payload: 0 })
 			dispatch({ type: 'transposeDown' })
 		} else if (e.key === 'm' && transpositionPoint < 127) {
+			dispatch({ type: 'setSelectedFingering', payload: 0 })
 			dispatch({ type: 'transposeUp' })
 		}
 	}
@@ -134,7 +147,7 @@ export default function Index() {
 			document.removeEventListener('keydown', handleOctaveChange)
 			document.removeEventListener('keydown', handleTranspose)
 		}
-	}, [transpositionPoint])
+	}, [dispatch, transpositionPoint])
 
 	const handleSelectFingering = (index: number) => {
 		dispatch({ type: 'setSelectedFingering', payload: index })
