@@ -93,7 +93,6 @@ export default function Index() {
 				hasAlternateFingerings &&
 				Number(e.key) < currentFingerings.length
 			) {
-				console.log(e.key, 'key al;skdjf;alksdf')
 				dispatch({ type: 'setSelectedFingering', payload: Number(e.key) })
 			}
 
