@@ -42,7 +42,7 @@ function reducer(state: ReducerStateProps, action: ActionProps) {
 		case 'octaveUp':
 			return {
 				...state,
-				currentMidiNote: state.currentMidiNote - 12,
+				currentMidiNote: state.currentMidiNote + 12,
 				transpositionPoint: state.transpositionPoint + 12,
 			}
 		case 'setCurrentFingerings':
