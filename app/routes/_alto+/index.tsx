@@ -25,6 +25,7 @@ import { Button } from '#app/components/ui/button.js'
 import { KeyContext } from '#app/context/key-context.js'
 import SaxBody from '#app/components/ui/saxophone/sax-body.js'
 import { OrbitControls, type OrbitControlsProps } from '@react-three/drei'
+import { cn } from '#app/utils/misc.js'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
@@ -164,16 +165,25 @@ export default function Index() {
 				{noteWithOctave} - {currentMidiNote}
 			</span>
 
-			<div className="flex space-x-3">
+			<div className="flex h-8 space-x-3">
 				{hasAlternateFingerings &&
-					currentFingerings.map((fingering: Array<string>, index: number) => (
-						<div className="flex flex-col space-y-2 md:w-36" key={index}>
-							<span className="text-center text-xs">{fingering}</span>
-							<Button onClick={() => handleSelectFingering(index)}>
-								{index}
-							</Button>
-						</div>
-					))}
+					currentFingerings.map((fingering: Array<string>, index: number) => {
+						return (
+							<div className="flex flex-col space-y-2 md:w-36" key={index}>
+								<span className="text-center text-xs">{fingering}</span>
+								<Button
+									className={cn(
+										index === selectedFingering
+											? 'border-2 border-slate-100 bg-slate-700 text-white transition-all duration-75 ease-in-out'
+											: '',
+									)}
+									onClick={() => handleSelectFingering(index)}
+								>
+									{index}
+								</Button>
+							</div>
+						)
+					})}
 			</div>
 			<div className="relative h-[600px] w-full">
 				<Canvas
