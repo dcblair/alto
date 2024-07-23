@@ -22,7 +22,9 @@ const RightHandMainKey = ({
 	name,
 	...props
 }: RightHandMainKeyProps) => {
-	const { currentFingerings, selectedFingering } = useContext(KeyContext)
+	const {
+		state: { currentFingerings, selectedFingering },
+	} = useContext(KeyContext)
 
 	const isPressed = determineIsPressed(
 		currentFingerings,
