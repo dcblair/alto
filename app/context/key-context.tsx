@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useState } from 'react'
+import { createContext, type ReactNode, useReducer } from 'react'
 
 /**
  * do i want to include the key name and color here?
@@ -6,22 +6,86 @@ import { createContext, type ReactNode, useState } from 'react'
  */
 
 export interface KeyContextProps {
-	note: string
-	setNote: (note: string) => void
-	midiNote: number
-	setMidiNote: (midiNote: number) => void
-	currentFingerings: number[]
-	setCurrentFingerings: (fingering: string[]) => void
-	selectedFingering: number
-	setSelectedFingering: (fingering: number) => void
+	state: ReducerStateProps
+	dispatch: React.Dispatch<any>
 }
 
-export const KeyContext = createContext({
+interface ReducerStateProps {
+	note: string
+	currentMidiNote: number
+	transpositionPoint: number
+	currentFingerings: string[][]
+	selectedFingering: number
+}
+
+interface ActionProps {
+	type:
+		| 'octaveDown'
+		| 'octaveUp'
+		| 'setCurrentFingerings'
+		| 'setCurrentMidiNote'
+		| 'setNote'
+		| 'setSelectedFingering'
+		| 'transposeDown'
+		| 'transposeUp'
+	payload: any
+}
+
+function reducer(state: ReducerStateProps, action: ActionProps) {
+	switch (action.type) {
+		case 'octaveDown':
+			return {
+				...state,
+				currentMidiNote: state.currentMidiNote - 12,
+				transpositionPoint: state.transpositionPoint - 12,
+			}
+		case 'octaveUp':
+			return {
+				...state,
+				currentMidiNote: state.currentMidiNote - 12,
+				transpositionPoint: state.transpositionPoint + 12,
+			}
+		case 'setCurrentFingerings':
+			return {
+				...state,
+				currentFingerings: action.payload,
+			}
+		case 'setCurrentMidiNote':
+			return {
+				...state,
+				currentMidiNote: action.payload,
+			}
+		case 'setNote':
+			return {
+				...state,
+				note: action.payload,
+			}
+		case 'setSelectedFingering':
+			return {
+				...state,
+				selectedFingering: action.payload,
+			}
+		case 'transposeDown':
+			return {
+				...state,
+				currentMidiNote: state.currentMidiNote - 1,
+				transpositioinPoint: state.transpositionPoint - 1,
+			}
+		case 'transposeUp':
+			return {
+				...state,
+				currentMidiNote: state.currentMidiNote + 1,
+				transpositioinPoint: state.transpositionPoint + 1,
+			}
+		default:
+			return state
+	}
+}
+
+const initialState = {
 	note: 'c',
-	setNote: (_value: string) => {},
-	// come back and fix this
-	midiNote: 48,
-	setMidiNote: (_value: number) => {},
+	currentMidiNote: 48,
+	transpositionPoint: 48,
 	currentFingerings: [
 		[
 			'b-main',
@@ -33,40 +97,19 @@ export const KeyContext = createContext({
 			'a#/bb-pinky-right',
 		],
 	],
-	setCurrentFingerings: (_value: Array<string[]>) => {},
 	selectedFingering: 0,
-	setSelectedFingering: (_value: number) => {},
+}
+
+export const KeyContext = createContext<KeyContextProps>({
+	state: initialState,
+	dispatch: () => {},
 })
 
 export const KeyContextProvider = ({ children }: { children: ReactNode }) => {
-	const [note, setNote] = useState('c')
-	const [midiNote, setMidiNote] = useState<number>(56)
-	const [currentFingerings, setCurrentFingerings] = useState<Array<string[]>>([
-		[
-			'b-main',
-			'c-main',
-			'g-main',
-			'f-main',
-			'e-main',
-			'd-main',
-			'a#/bb-pinky-right',
-		],
-	])
-	const [selectedFingering, setSelectedFingering] = useState<number>(0)
+	const [state, dispatch] = useReducer(reducer, initialState)
 
 	return (
-		<KeyContext.Provider
-			value={{
-				note,
-				setNote,
-				midiNote,
-				setMidiNote,
-				currentFingerings,
-				setCurrentFingerings,
-				selectedFingering,
-				setSelectedFingering,
-			}}
-		>
+		<KeyContext.Provider value={{ state, dispatch }}>
 			{children}
 		</KeyContext.Provider>
 	)

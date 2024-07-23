@@ -8,7 +8,9 @@ import { determineIsPressed } from '#app/utils/keys-helpers.js'
 interface LeftHandMainKeyProps extends GroupProps {}
 
 const OctaveKey = ({ ...props }: LeftHandMainKeyProps) => {
-	const { currentFingerings, selectedFingering } = useContext(KeyContext)
+	const {
+		state: { currentFingerings, selectedFingering },
+	} = useContext(KeyContext)
 	const { keyId, name } = keyLayout.octave?.[0]!
 
 	const isPressed = determineIsPressed(

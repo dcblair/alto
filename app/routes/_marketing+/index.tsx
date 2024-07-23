@@ -6,7 +6,7 @@ import {
 } from '#app/constants/keys.js'
 import { type MetaFunction } from '@remix-run/node'
 import { Canvas, useThree } from '@react-three/fiber'
-import { Suspense, useContext, useEffect, useState } from 'react'
+import { Suspense, useContext, useEffect, useReducer, useState } from 'react'
 import LeftHandMainKeys from '#app/components/ui/saxophone/lh-main-keys.js'
 import RightHandMainKeys from '#app/components/ui/saxophone/rh-main-keys.js'
 import RightHandPinkyKeys from '#app/components/ui/saxophone/rh-pinky-keys.js'
@@ -33,46 +33,59 @@ const Controls = ({ ...props }: ControlsProps) => {
 
 export default function Index() {
 	const {
-		note,
-		setNote,
-		setSelectedFingering,
-		currentFingerings,
-		setCurrentFingerings,
+		state: {
+			currentFingerings,
+			currentMidiNote,
+			note,
+			selectedFingering,
+			transpositionPoint,
+		},
+		dispatch,
 	} = useContext(KeyContext)
 	const [selectedKey, setSelectedKey] = useState('')
 	// default is 48, which is C3 — midi
-	const [transpositionPoint, setTranspositionPoint] = useState(48)
-	const [currentMidiNote, setCurrentMidiNote] = useState(48)
+	const [currentKeyLayout, setCurrentKeyLayout] = useState(
+		acceptedKeys.map((key, index) => ({
+			key,
+			midiNote: transpositionPoint + index,
+		})),
+	)
 
 	const hasAlternateFingerings = currentFingerings.length > 1
 
-	// current note layout - based on octave / transposition shift
-	const noteLayout = acceptedKeys.map((key, index) => ({
-		key,
-		midiNote: transpositionPoint + index,
-	}))
+	useEffect(() => {
+		// current note layout - based on octave / transposition shift
+		const noteLayout = acceptedKeys.map((key, index) => ({
+			key,
+			midiNote: transpositionPoint + index,
+		}))
+		setCurrentKeyLayout(noteLayout)
+	}, [transpositionPoint])
 
 	// set fingerings of currently selected note
 	useEffect(() => {
 		const newCurrentFingerings = fingerings.midiNote[currentMidiNote]
 			?.keyIds || [[]]
-		setCurrentFingerings(newCurrentFingerings)
+		dispatch({ type: 'setCurrentFingerings', payload: newCurrentFingerings })
 	}, [currentMidiNote])
 
+	// issue useeffect is decoupled from handleoctave change and transpose, so the midi note is not updating
+	// need to fix this
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			// handle note selection
 			if (acceptedKeys.includes(e.key)) {
 				// reset fingering index
-				setSelectedFingering(0)
+				dispatch({ type: 'setSelectedFingering', payload: 0 })
 				setSelectedKey(e.key)
 
 				const midiNote =
-					noteLayout.find((note) => note.key === e.key)?.midiNote || 0
-				setCurrentMidiNote(midiNote)
+					currentKeyLayout.find((note) => note.key === e.key)?.midiNote || 0
+
+				dispatch({ type: 'setCurrentMidiNote', payload: midiNote })
 
 				const parsedNote = keyMap[e.key]!.note
-				setNote(parsedNote)
+				dispatch({ type: 'setNote', payload: parsedNote })
 			}
 
 			// handle alternate fingering selection
@@ -81,7 +94,7 @@ export default function Index() {
 				hasAlternateFingerings &&
 				Number(e.key) < currentFingerings.length
 			) {
-				setSelectedFingering(Number(e.key))
+				dispatch({ type: 'setSelectedFingering', payload: Number(e.key) })
 			}
 
 			// do I want to do this?
@@ -99,21 +112,17 @@ export default function Index() {
 
 	const handleOctaveChange = (e: KeyboardEvent) => {
 		if (e.key === 'z' && transpositionPoint >= 12) {
-			setTranspositionPoint(transpositionPoint - 12)
-			setCurrentMidiNote(currentMidiNote - 12)
+			dispatch({ type: 'octaveDown' })
 		} else if (e.key === 'x' && transpositionPoint <= 115) {
-			setTranspositionPoint(transpositionPoint + 12)
-			setCurrentMidiNote(currentMidiNote + 12)
+			dispatch({ type: 'octaveUp' })
 		}
 	}
 
 	const handleTranspose = (e: KeyboardEvent) => {
 		if (e.key === 'n' && transpositionPoint >= 0) {
-			setTranspositionPoint(transpositionPoint - 1)
-			setCurrentMidiNote(currentMidiNote - 1)
+			dispatch({ type: 'transposeDown' })
 		} else if (e.key === 'm' && transpositionPoint < 127) {
-			setTranspositionPoint(transpositionPoint + 1)
-			setCurrentMidiNote(currentMidiNote + 1)
+			dispatch({ type: 'transposeUp' })
 		}
 	}
 
@@ -128,20 +137,21 @@ export default function Index() {
 	}, [transpositionPoint])
 
 	const handleSelectFingering = (index: number) => {
-		setSelectedFingering(index)
+		dispatch({ type: 'setSelectedFingering', payload: index })
 	}
 
 	const currentOctave = fingerings.midiNote[currentMidiNote]?.octave ?? ''
-	const noteWithOctave = `${note} ${currentOctave}`
-
-	// console.log(currentOctave, currentMidiNote)
+	const noteWithOctave = `${note}${currentOctave}`
 
 	const controlsEnabled = true
 
 	return (
 		<main className="font-poppins mt-2 grid h-full place-items-center">
 			<p className="text-center text-lg">play some notes on your keyboard</p>
-			<span className="text-center text-3xl">{noteWithOctave}</span>
+			<span className="text-center text-3xl">
+				{noteWithOctave} - {currentMidiNote}
+			</span>
+
 			<div className="flex space-x-3">
 				{hasAlternateFingerings &&
 					currentFingerings.map((fingering: Array<string>, index: number) => (

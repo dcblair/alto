@@ -22,7 +22,9 @@ const LeftHandPalmKey = ({
 	name,
 	...props
 }: LeftHandPalmKeyProps) => {
-	const { currentFingerings, selectedFingering } = useContext(KeyContext)
+	const {
+		state: { currentFingerings, selectedFingering },
+	} = useContext(KeyContext)
 
 	const isPressed = determineIsPressed(
 		currentFingerings,
