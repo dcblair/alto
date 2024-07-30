@@ -8,10 +8,12 @@ import { type MetaFunction } from '@remix-run/node'
 import { Canvas, useThree } from '@react-three/fiber'
 import {
 	Suspense,
+	useCallback,
 	useContext,
 	useEffect,
 	useMemo,
 	useReducer,
+	useRef,
 	useState,
 } from 'react'
 import LeftHandMainKeys from '#app/components/ui/saxophone/lh-main-keys.js'
@@ -50,6 +52,7 @@ export default function Index() {
 		},
 		dispatch,
 	} = useContext(KeyContext)
+	const audioPlaybackRef = useRef(null)
 	const [selectedKey, setSelectedKey] = useState('')
 
 	const currentKeyLayout = useMemo(() => {
@@ -87,7 +90,6 @@ export default function Index() {
 				const parsedNote = keyMap[e.key]!.note
 				dispatch({ type: 'setNote', payload: parsedNote })
 			}
-
 			// handle alternate fingering selection
 			if (
 				!isNaN(Number(e.key)) &&
@@ -105,9 +107,13 @@ export default function Index() {
 		}
 
 		document.addEventListener('keydown', handleKeyDown)
+		document.addEventListener('keydown', handlePlaybackNote)
 
 		// cleanup, cleanup, everybody do your share
-		return () => document.removeEventListener('keydown', handleKeyDown)
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown)
+			document.removeEventListener('keydown', handlePlaybackNote)
+		}
 	}, [
 		currentKeyLayout,
 		currentFingerings,
@@ -118,6 +124,18 @@ export default function Index() {
 		transpositionPoint,
 		note,
 	])
+
+	// todo: replace audio files in public/samples/saxophone with actual saxophone samples
+	const handlePlaybackNote = () => {
+		if (audioPlaybackRef.current) {
+			const audioElement = audioPlaybackRef.current as HTMLAudioElement
+			try {
+				if (audioElement.paused) audioElement.play()
+			} catch (error) {
+				console.error(error)
+			}
+		}
+	}
 
 	const handleOctaveChange = (e: KeyboardEvent) => {
 		if (e.key === 'z' && transpositionPoint >= 12) {
@@ -184,6 +202,13 @@ export default function Index() {
 							</div>
 						)
 					})}
+			</div>
+			<div>
+				<audio
+					controls
+					ref={audioPlaybackRef}
+					src={`/samples/saxophone/${currentMidiNote}_${selectedFingering}.wav`}
+				></audio>
 			</div>
 			<div className="relative h-[600px] w-full">
 				<Canvas
