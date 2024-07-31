@@ -1,18 +1,11 @@
-import {
-	acceptedKeys,
-	fingerings,
-	keyMap,
-	midiNoteMap,
-} from '#app/constants/keys.js'
+import { acceptedKeys, fingerings, keyMap } from '#app/constants/keys.js'
 import { type MetaFunction } from '@remix-run/node'
 import { Canvas, useThree } from '@react-three/fiber'
 import {
 	Suspense,
-	useCallback,
 	useContext,
 	useEffect,
 	useMemo,
-	useReducer,
 	useRef,
 	useState,
 } from 'react'
@@ -127,7 +120,7 @@ export default function Index() {
 
 	// todo: replace audio files in public/samples/saxophone with actual saxophone samples
 	const handlePlaybackNote = () => {
-		if (audioPlaybackRef.current) {
+		if (audioPlaybackRef?.current) {
 			const audioElement = audioPlaybackRef.current as HTMLAudioElement
 			try {
 				if (audioElement.paused) audioElement.play()
@@ -178,11 +171,15 @@ export default function Index() {
 
 	return (
 		<main className="font-poppins mt-2 grid h-full place-items-center">
-			<p className="text-center text-lg">play some notes on your keyboard</p>
-			<span className="text-center text-3xl">
-				{noteWithOctave} - {currentMidiNote}
-			</span>
+			{/* directions and note info */}
+			<div className="mb-8 flex flex-col text-center">
+				<p className="text-center text-lg">play some notes on your keyboard</p>
+				<span className="text-center text-3xl">
+					{noteWithOctave} - {currentMidiNote}
+				</span>
+			</div>
 
+			{/* fingerings buttons */}
 			<div className="flex h-8 space-x-3">
 				{hasAlternateFingerings &&
 					currentFingerings.map((fingering: Array<string>, index: number) => {
@@ -197,19 +194,14 @@ export default function Index() {
 									)}
 									onClick={() => handleSelectFingering(index)}
 								>
-									{index}
+									{index + 1}
 								</Button>
 							</div>
 						)
 					})}
 			</div>
-			<div>
-				<audio
-					controls
-					ref={audioPlaybackRef}
-					src={`/samples/saxophone/${currentMidiNote}_${selectedFingering}.wav`}
-				></audio>
-			</div>
+
+			{/* three.js canvas and models */}
 			<div className="relative h-[600px] w-full">
 				<Canvas
 					camera={{ fov: 70, position: [0, 0, 13] }}
@@ -230,6 +222,16 @@ export default function Index() {
 						{controlsEnabled ? <Controls enableZoom={false} /> : null}
 					</Suspense>
 				</Canvas>
+			</div>
+
+			{/* audio controls */}
+			<div className="flex">
+				<audio
+					controls
+					autoPlay
+					ref={audioPlaybackRef}
+					src={`/samples/saxophone/${currentMidiNote}_${selectedFingering}.wav`}
+				></audio>
 			</div>
 		</main>
 	)
