@@ -1,18 +1,11 @@
-import {
-	acceptedKeys,
-	fingerings,
-	keyMap,
-	midiNoteMap,
-} from '#app/constants/keys.js'
+import { acceptedKeys, fingerings, keyMap } from '#app/constants/keys.js'
 import { type MetaFunction } from '@remix-run/node'
 import { Canvas, useThree } from '@react-three/fiber'
 import {
 	Suspense,
-	useCallback,
 	useContext,
 	useEffect,
 	useMemo,
-	useReducer,
 	useRef,
 	useState,
 } from 'react'
@@ -178,6 +171,7 @@ export default function Index() {
 
 	return (
 		<main className="font-poppins mt-2 grid h-full place-items-center">
+			{/* directions and note info */}
 			<div className="mb-8 flex flex-col text-center">
 				<p className="text-center text-lg">play some notes on your keyboard</p>
 				<span className="text-center text-3xl">
@@ -185,6 +179,7 @@ export default function Index() {
 				</span>
 			</div>
 
+			{/* fingerings buttons */}
 			<div className="flex h-8 space-x-3">
 				{hasAlternateFingerings &&
 					currentFingerings.map((fingering: Array<string>, index: number) => {
@@ -205,6 +200,8 @@ export default function Index() {
 						)
 					})}
 			</div>
+
+			{/* three.js canvas and models */}
 			<div className="relative h-[600px] w-full">
 				<Canvas
 					camera={{ fov: 70, position: [0, 0, 13] }}
@@ -226,6 +223,8 @@ export default function Index() {
 					</Suspense>
 				</Canvas>
 			</div>
+
+			{/* audio controls */}
 			<div className="flex">
 				<audio
 					controls
