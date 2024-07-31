@@ -127,7 +127,7 @@ export default function Index() {
 
 	// todo: replace audio files in public/samples/saxophone with actual saxophone samples
 	const handlePlaybackNote = () => {
-		if (audioPlaybackRef.current) {
+		if (audioPlaybackRef?.current) {
 			const audioElement = audioPlaybackRef.current as HTMLAudioElement
 			try {
 				if (audioElement.paused) audioElement.play()
@@ -203,13 +203,6 @@ export default function Index() {
 						)
 					})}
 			</div>
-			<div>
-				<audio
-					controls
-					ref={audioPlaybackRef}
-					src={`/samples/saxophone/${currentMidiNote}_${selectedFingering}.wav`}
-				></audio>
-			</div>
 			<div className="relative h-[600px] w-full">
 				<Canvas
 					camera={{ fov: 70, position: [0, 0, 13] }}
@@ -230,6 +223,14 @@ export default function Index() {
 						{controlsEnabled ? <Controls enableZoom={false} /> : null}
 					</Suspense>
 				</Canvas>
+			</div>
+			<div className="flex">
+				<audio
+					controls
+					autoPlay
+					ref={audioPlaybackRef}
+					src={`/samples/saxophone/${currentMidiNote}_${selectedFingering}.wav`}
+				></audio>
 			</div>
 		</main>
 	)
