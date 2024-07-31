@@ -178,10 +178,12 @@ export default function Index() {
 
 	return (
 		<main className="font-poppins mt-2 grid h-full place-items-center">
-			<p className="text-center text-lg">play some notes on your keyboard</p>
-			<span className="text-center text-3xl">
-				{noteWithOctave} - {currentMidiNote}
-			</span>
+			<div className="mb-8 flex flex-col text-center">
+				<p className="text-center text-lg">play some notes on your keyboard</p>
+				<span className="text-center text-3xl">
+					{noteWithOctave} - {currentMidiNote}
+				</span>
+			</div>
 
 			<div className="flex h-8 space-x-3">
 				{hasAlternateFingerings &&
@@ -197,7 +199,7 @@ export default function Index() {
 									)}
 									onClick={() => handleSelectFingering(index)}
 								>
-									{index}
+									{index + 1}
 								</Button>
 							</div>
 						)
