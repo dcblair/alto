@@ -83,6 +83,7 @@ export default function Index() {
 				const parsedNote = keyMap[e.key]!.note
 				dispatch({ type: 'setNote', payload: parsedNote })
 			}
+
 			// handle alternate fingering selection
 			if (
 				!isNaN(Number(e.key)) &&
