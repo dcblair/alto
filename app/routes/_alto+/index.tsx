@@ -21,6 +21,7 @@ import { KeyContext } from '#app/context/key-context.js'
 import SaxBody from '#app/components/ui/saxophone/sax-body.js'
 import { OrbitControls, type OrbitControlsProps } from '@react-three/drei'
 import { cn } from '#app/utils/misc.js'
+import Metronome from '#app/components/ui/metronome/metronome.js'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
@@ -233,6 +234,10 @@ export default function Index() {
 					ref={audioPlaybackRef}
 					src={`/samples/saxophone/${currentMidiNote}_${selectedFingering}.wav`}
 				></audio>
+			</div>
+
+			<div>
+				<Metronome />
 			</div>
 		</main>
 	)
