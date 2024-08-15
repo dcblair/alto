@@ -236,7 +236,7 @@ export default function Index() {
 				></audio>
 			</div>
 
-			<div>
+			<div className="mt-4">
 				<Metronome />
 			</div>
 		</main>
