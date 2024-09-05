@@ -134,20 +134,16 @@ export default function Index() {
 
 	const handleOctaveChange = (e: KeyboardEvent) => {
 		if (e.key === 'z' && transpositionPoint >= 12) {
-			dispatch({ type: 'setSelectedFingering', payload: 0 })
 			dispatch({ type: 'octaveDown' })
 		} else if (e.key === 'x' && transpositionPoint <= 115) {
-			dispatch({ type: 'setSelectedFingering', payload: 0 })
 			dispatch({ type: 'octaveUp' })
 		}
 	}
 
 	const handleTranspose = (e: KeyboardEvent) => {
 		if (e.key === 'n' && transpositionPoint >= 0) {
-			dispatch({ type: 'setSelectedFingering', payload: 0 })
 			dispatch({ type: 'transposeDown' })
 		} else if (e.key === 'm' && transpositionPoint < 127) {
-			dispatch({ type: 'setSelectedFingering', payload: 0 })
 			dispatch({ type: 'transposeUp' })
 		}
 	}
