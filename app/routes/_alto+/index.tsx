@@ -89,9 +89,9 @@ export default function Index() {
 			if (
 				!isNaN(Number(e.key)) &&
 				hasAlternateFingerings &&
-				Number(e.key) < currentFingerings.length
+				Number(e.key) <= currentFingerings.length
 			) {
-				dispatch({ type: 'setSelectedFingering', payload: Number(e.key) })
+				dispatch({ type: 'setSelectedFingering', payload: Number(e.key) - 1 })
 			}
 
 			// do I want to do this?
@@ -184,23 +184,21 @@ export default function Index() {
 			{/* fingerings buttons */}
 			<div className="flex h-8 space-x-3">
 				{hasAlternateFingerings &&
-					currentFingerings.map((fingering: Array<string>, index: number) => {
-						return (
-							<div className="flex flex-col space-y-2 md:w-36" key={index}>
-								<span className="text-center text-xs">{fingering}</span>
-								<Button
-									className={cn(
-										index === selectedFingering
-											? 'border-2 border-slate-100 bg-slate-700 text-white transition-all duration-75 ease-in-out'
-											: '',
-									)}
-									onClick={() => handleSelectFingering(index)}
-								>
-									{index + 1}
-								</Button>
-							</div>
-						)
-					})}
+					currentFingerings.map((fingering: Array<string>, index: number) => (
+						<div className="flex flex-col space-y-2 md:w-36" key={index}>
+							<span className="text-center text-xs">{fingering}</span>
+							<Button
+								className={cn(
+									index === selectedFingering
+										? 'border-2 border-slate-100 bg-slate-700 text-white transition-all duration-75 ease-in-out'
+										: '',
+								)}
+								onClick={() => handleSelectFingering(index)}
+							>
+								{index + 1}
+							</Button>
+						</div>
+					))}
 			</div>
 
 			{/* three.js canvas and models */}

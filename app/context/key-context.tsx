@@ -37,12 +37,14 @@ function reducer(state: ReducerStateProps, action: ActionProps) {
 			return {
 				...state,
 				currentMidiNote: state.currentMidiNote - 12,
+				selectedFingering: 0,
 				transpositionPoint: state.transpositionPoint - 12,
 			}
 		case 'octaveUp':
 			return {
 				...state,
 				currentMidiNote: state.currentMidiNote + 12,
+				selectedFingering: 0,
 				transpositionPoint: state.transpositionPoint + 12,
 			}
 		case 'setCurrentFingerings':
@@ -69,12 +71,14 @@ function reducer(state: ReducerStateProps, action: ActionProps) {
 			return {
 				...state,
 				currentMidiNote: state.currentMidiNote - 1,
+				selectedFingering: 0,
 				transpositioinPoint: state.transpositionPoint - 1,
 			}
 		case 'transposeUp':
 			return {
 				...state,
 				currentMidiNote: state.currentMidiNote + 1,
+				selectedFingering: 0,
 				transpositioinPoint: state.transpositionPoint + 1,
 			}
 		default:
