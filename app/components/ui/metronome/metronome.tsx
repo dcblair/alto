@@ -4,6 +4,7 @@ import { Button } from '../button'
 const BaseMetronome = () => {
 	const [tempo, setTempo] = useState(60)
 	const [beat, setBeat] = useState(4)
+	const [currentBeat, setCurrentBeat] = useState(1)
 	const [isPlaying, setIsPlaying] = useState(false)
 	const [selectedMetronomeSample, setSelectedMetronomeSample] = useState({
 		accent: 'perc_met_1',
@@ -18,17 +19,21 @@ const BaseMetronome = () => {
 			`/samples/metronome/${selectedMetronomeSample?.main}.wav`,
 		)
 
-		if (beat % 4 === 0) {
-			accentTickSound.play()
-		} else {
-			tickSound.play()
-		}
+		// todo: only tickSound playing => figure out what's overriding this
+		currentBeat !== 1 ? tickSound.play() : accentTickSound.play()
 	}
 
 	useEffect(() => {
 		let intervalId: any
 		if (isPlaying) {
 			intervalId = setInterval(() => {
+				setCurrentBeat((prevBeat) => {
+					if (prevBeat === beat) {
+						return 1
+					}
+					return prevBeat + 1
+				})
+
 				playMetronomeTick()
 			}, 60000 / tempo)
 		}
@@ -40,7 +45,7 @@ const BaseMetronome = () => {
 	}
 
 	return (
-		<div className="flex w-full flex-col space-y-6 rounded-xl bg-gray-500 p-8 shadow-md md:w-64">
+		<div className="flex w-full flex-col space-y-6 rounded-xl bg-gray-500 p-8 text-center shadow-md md:w-64">
 			<input
 				defaultValue={tempo}
 				onChange={(e) => setTempo(Number(e.target.value))}
@@ -49,7 +54,10 @@ const BaseMetronome = () => {
 				max="300"
 				step={1}
 			/>
-			<p className="text-center text-white">{tempo} bpm</p>
+			<div>
+				<p className="text-white">{tempo} bpm</p>
+				<span className="text-white">{currentBeat}</span>
+			</div>
 
 			<Button className="shadow-md" onClick={handleIsPlaying}>
 				{isPlaying ? 'stop' : 'play'}
@@ -59,5 +67,7 @@ const BaseMetronome = () => {
 }
 
 const Metronome = memo(BaseMetronome)
+
+Metronome.displayName = 'Metronome'
 
 export default Metronome
