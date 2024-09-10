@@ -1,7 +1,9 @@
-import React, { memo, useEffect, useRef, useState } from 'react'
+import React, { memo, useContext, useEffect, useRef, useState } from 'react'
 import { Button } from '../button'
+// import { MetronomeContext } from '#app/context/metronome-context.js'
 
 const BaseMetronome = () => {
+	// const [state, dispatch] = useContext(MetronomeContext)
 	const [tempo, setTempo] = useState(60)
 	const [beat, setBeat] = useState(4)
 	const [currentBeat, setCurrentBeat] = useState(1)
