@@ -36,6 +36,7 @@ import {
 import { Icon, href as iconsHref } from './components/ui/icon.tsx'
 import { EpicToaster } from './components/ui/sonner.tsx'
 import { KeyContextProvider } from './context/key-context.tsx'
+import { MetronomeContextProvider } from './context/metronome-context.tsx'
 import { ThemeSwitch, useTheme } from './routes/resources+/theme-switch.tsx'
 import tailwindStyleSheetUrl from './styles/tailwind.css?url'
 import { getUserId, logout } from './utils/auth.server.ts'
@@ -251,7 +252,9 @@ function AppWithProviders() {
 	return (
 		<HoneypotProvider {...data.honeyProps}>
 			<KeyContextProvider>
-				<App />
+				<MetronomeContextProvider>
+					<App />
+				</MetronomeContextProvider>
 			</KeyContextProvider>
 		</HoneypotProvider>
 	)
