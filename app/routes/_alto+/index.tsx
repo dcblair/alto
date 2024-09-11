@@ -22,6 +22,7 @@ import SaxBody from '#app/components/ui/saxophone/sax-body.js'
 import { OrbitControls, type OrbitControlsProps } from '@react-three/drei'
 import { cn } from '#app/utils/misc.js'
 import Metronome from '#app/components/ui/metronome/metronome.js'
+import { ScaleQuality } from '#app/utils/scales.js'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
@@ -48,6 +49,7 @@ export default function Index() {
 	} = useContext(KeyContext)
 	const audioPlaybackRef = useRef(null)
 	const [selectedKey, setSelectedKey] = useState('')
+	const [scaleQuality, setScaleQuality] = useState<ScaleQuality>('major')
 
 	const currentKeyLayout = useMemo(() => {
 		return acceptedKeys.map((key, index) => ({
@@ -148,6 +150,10 @@ export default function Index() {
 		}
 	}
 
+	const handleSetScale = (e: React.FocusEvent<HTMLInputElement>) => {
+		dispatch({ type: 'setScale', payload: e.target.value })
+	}
+
 	useEffect(() => {
 		document.addEventListener('keydown', handleOctaveChange)
 		document.addEventListener('keydown', handleTranspose)
@@ -224,12 +230,37 @@ export default function Index() {
 			<div className="flex">
 				<audio
 					controls
-					autoPlay
+					// autoPlay
 					ref={audioPlaybackRef}
 					src={`/samples/saxophone/${currentMidiNote}_${selectedFingering}.wav`}
 				></audio>
 			</div>
 
+			{/* scales */}
+			<div className="mt-8 flex flex-col items-center space-y-3 rounded-lg bg-slate-500 p-4">
+				<h4>select a scale</h4>
+				<input
+					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-black"
+					type="text"
+					placeholder="scale"
+					onBlur={handleSetScale}
+				/>
+				<input
+					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-black"
+					type="number"
+					placeholder="octave"
+					defaultValue={1}
+				/>
+				<div className="space-x-3">
+					<Button onClick={() => setScaleQuality('major')}>major</Button>
+					<Button onClick={() => setScaleQuality('minor')}>minor</Button>
+					<Button onClick={() => setScaleQuality('diminished')}>
+						diminished
+					</Button>
+				</div>
+			</div>
+
+			{/* metronome */}
 			<div className="mt-4">
 				<Metronome />
 			</div>
