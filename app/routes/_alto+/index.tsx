@@ -22,7 +22,7 @@ import SaxBody from '#app/components/ui/saxophone/sax-body.js'
 import { OrbitControls, type OrbitControlsProps } from '@react-three/drei'
 import { cn } from '#app/utils/misc.js'
 import Metronome from '#app/components/ui/metronome/metronome.js'
-import { ScaleQuality } from '#app/utils/scales.js'
+import { getScaleFingerings, ScaleQuality } from '#app/utils/scales.js'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
@@ -50,13 +50,17 @@ export default function Index() {
 	const audioPlaybackRef = useRef(null)
 	const [selectedKey, setSelectedKey] = useState('')
 	const [scaleQuality, setScaleQuality] = useState<ScaleQuality>('major')
-
+	// const [scaleOctave, setScaleOctave] = useState(2)
+	// const [scaleNote, setScaleNote] = useState(48)
 	const currentKeyLayout = useMemo(() => {
 		return acceptedKeys.map((key, index) => ({
 			key,
 			midiNote: transpositionPoint + index,
 		}))
 	}, [transpositionPoint])
+	const currentScaleFingerings = useMemo(() => {
+		return getScaleFingerings(scaleQuality, currentMidiNote)
+	}, [currentMidiNote, scaleQuality])
 
 	const hasAlternateFingerings = currentFingerings.length > 1
 
@@ -95,12 +99,6 @@ export default function Index() {
 			) {
 				dispatch({ type: 'setSelectedFingering', payload: Number(e.key) - 1 })
 			}
-
-			// do I want to do this?
-			// if (e.key === 'Backspace') {
-			// 	setSelectedKey('')
-			// 	setNote('')
-			// }
 		}
 
 		document.addEventListener('keydown', handleKeyDown)
@@ -122,18 +120,6 @@ export default function Index() {
 		note,
 	])
 
-	// todo: replace audio files in public/samples/saxophone with actual saxophone samples
-	const handlePlaybackNote = () => {
-		if (audioPlaybackRef?.current) {
-			const audioElement = audioPlaybackRef.current as HTMLAudioElement
-			try {
-				if (audioElement.paused) audioElement.play()
-			} catch (error) {
-				console.error(error)
-			}
-		}
-	}
-
 	const handleOctaveChange = (e: KeyboardEvent) => {
 		if (e.key === 'z' && transpositionPoint >= 12) {
 			dispatch({ type: 'octaveDown' })
@@ -150,10 +136,6 @@ export default function Index() {
 		}
 	}
 
-	const handleSetScale = (e: React.FocusEvent<HTMLInputElement>) => {
-		dispatch({ type: 'setScale', payload: e.target.value })
-	}
-
 	useEffect(() => {
 		document.addEventListener('keydown', handleOctaveChange)
 		document.addEventListener('keydown', handleTranspose)
@@ -167,6 +149,22 @@ export default function Index() {
 	const handleSelectFingering = (index: number) => {
 		dispatch({ type: 'setSelectedFingering', payload: index })
 	}
+
+	// todo: replace audio files in public/samples/saxophone with actual saxophone samples
+	const handlePlaybackNote = () => {
+		if (audioPlaybackRef?.current) {
+			const audioElement = audioPlaybackRef.current as HTMLAudioElement
+			try {
+				if (audioElement.paused) audioElement.play()
+			} catch (error) {
+				console.error(error)
+			}
+		}
+	}
+
+	// const handleScaleNote = (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 	setScaleNote(Number(e.target.value))
+	// }
 
 	const currentOctave = fingerings.midiNote[currentMidiNote]?.octave ?? ''
 	const noteWithOctave = `${note}${currentOctave}`
@@ -237,19 +235,27 @@ export default function Index() {
 			</div>
 
 			{/* scales */}
+			<div>
+				{currentScaleFingerings.map((fingering) => (
+					<button key={fingering.keyId} className="rounded-md">
+						{fingering.note}
+					</button>
+				))}
+			</div>
 			<div className="mt-8 flex flex-col items-center space-y-3 rounded-lg bg-slate-500 p-4">
 				<h4>select a scale</h4>
 				<input
 					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-black"
 					type="text"
 					placeholder="scale"
-					onBlur={handleSetScale}
+					// onChange={(e) => setScaleNote(e.target.value)}
 				/>
 				<input
 					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-black"
 					type="number"
 					placeholder="octave"
-					defaultValue={1}
+					defaultValue={2}
+					// onChange={handleSetScaleNote}
 				/>
 				<div className="space-x-3">
 					<Button onClick={() => setScaleQuality('major')}>major</Button>
