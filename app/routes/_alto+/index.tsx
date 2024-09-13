@@ -248,7 +248,8 @@ export default function Index() {
 								})
 							}
 						>
-							{fingering.note} {fingering.octave}
+							{/* todo: show different values depending on scale eg./ d e f# g a b c# d => rather than gb and db */}
+							{fingering.note}
 						</button>
 					))}
 				</div>
