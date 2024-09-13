@@ -14,9 +14,9 @@ const BaseMetronome = () => {
 	})
 
 	useEffect(() => {
-		let intervalId: any
+		let timeoutId: any
 		if (isPlaying) {
-			intervalId = setInterval(() => {
+			timeoutId = setTimeout(() => {
 				setCurrentBeat((prevBeat) => {
 					if (prevBeat === beat) {
 						return 1
@@ -27,7 +27,8 @@ const BaseMetronome = () => {
 				playMetronomeTick()
 			}, 60000 / tempo)
 		}
-		return () => clearInterval(intervalId)
+
+		return () => clearTimeout(timeoutId)
 	}, [tempo, isPlaying])
 
 	const handleIsPlaying = () => {
