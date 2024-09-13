@@ -22,6 +22,7 @@ import SaxBody from '#app/components/ui/saxophone/sax-body.js'
 import { OrbitControls, type OrbitControlsProps } from '@react-three/drei'
 import { cn } from '#app/utils/misc.js'
 import Metronome from '#app/components/ui/metronome/metronome.js'
+import { getScaleFingerings, ScaleQuality } from '#app/utils/scales.js'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
@@ -48,7 +49,9 @@ export default function Index() {
 	} = useContext(KeyContext)
 	const audioPlaybackRef = useRef(null)
 	const [selectedKey, setSelectedKey] = useState('')
-
+	const [scaleQuality, setScaleQuality] = useState<ScaleQuality>('major')
+	// const [scaleOctave, setScaleOctave] = useState(2)
+	// const [scaleNote, setScaleNote] = useState(48)
 	const currentKeyLayout = useMemo(() => {
 		return acceptedKeys.map((key, index) => ({
 			key,
@@ -56,12 +59,15 @@ export default function Index() {
 		}))
 	}, [transpositionPoint])
 
+	const currentScaleFingerings = useMemo(() => {
+		return getScaleFingerings(scaleQuality, currentMidiNote)
+	}, [currentMidiNote, scaleQuality])
+
 	const hasAlternateFingerings = currentFingerings.length > 1
 
 	useEffect(() => {
 		// set fingerings of currently selected note
-		const newCurrentFingerings = fingerings.midiNote[currentMidiNote]
-			?.keyIds || [[]]
+		const newCurrentFingerings = fingerings[currentMidiNote]?.keyIds || [[]]
 		dispatch({
 			type: 'setCurrentFingerings',
 			payload: newCurrentFingerings,
@@ -78,7 +84,7 @@ export default function Index() {
 
 				// set current midi note
 				const midiNote =
-					currentKeyLayout.find((note) => note.key === e.key)?.midiNote || 0
+					currentKeyLayout.find(note => note.key === e.key)?.midiNote || 0
 				dispatch({ type: 'setCurrentMidiNote', payload: midiNote })
 
 				const parsedNote = keyMap[e.key]!.note
@@ -93,12 +99,6 @@ export default function Index() {
 			) {
 				dispatch({ type: 'setSelectedFingering', payload: Number(e.key) - 1 })
 			}
-
-			// do I want to do this?
-			// if (e.key === 'Backspace') {
-			// 	setSelectedKey('')
-			// 	setNote('')
-			// }
 		}
 
 		document.addEventListener('keydown', handleKeyDown)
@@ -119,18 +119,6 @@ export default function Index() {
 		transpositionPoint,
 		note,
 	])
-
-	// todo: replace audio files in public/samples/saxophone with actual saxophone samples
-	const handlePlaybackNote = () => {
-		if (audioPlaybackRef?.current) {
-			const audioElement = audioPlaybackRef.current as HTMLAudioElement
-			try {
-				if (audioElement.paused) audioElement.play()
-			} catch (error) {
-				console.error(error)
-			}
-		}
-	}
 
 	const handleOctaveChange = (e: KeyboardEvent) => {
 		if (e.key === 'z' && transpositionPoint >= 12) {
@@ -162,7 +150,23 @@ export default function Index() {
 		dispatch({ type: 'setSelectedFingering', payload: index })
 	}
 
-	const currentOctave = fingerings.midiNote[currentMidiNote]?.octave ?? ''
+	// todo: replace audio files in public/samples/saxophone with actual saxophone samples
+	const handlePlaybackNote = () => {
+		if (audioPlaybackRef?.current) {
+			const audioElement = audioPlaybackRef.current as HTMLAudioElement
+			try {
+				if (audioElement.paused) audioElement.play()
+			} catch (error) {
+				console.error(error)
+			}
+		}
+	}
+
+	// const handleScaleNote = (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 	setScaleNote(Number(e.target.value))
+	// }
+
+	const currentOctave = fingerings[currentMidiNote]?.octave ?? ''
 	const noteWithOctave = `${note}${currentOctave}`
 
 	const controlsEnabled = true
@@ -224,12 +228,63 @@ export default function Index() {
 			<div className="flex">
 				<audio
 					controls
-					autoPlay
+					// autoPlay
 					ref={audioPlaybackRef}
 					src={`/samples/saxophone/${currentMidiNote}_${selectedFingering}.wav`}
 				></audio>
 			</div>
 
+			{/* scale notes */}
+			<div className="my-8 rounded-lg bg-slate-600 p-8">
+				<div className="space-x-4">
+					{currentScaleFingerings.map((fingering, index) => (
+						<button
+							key={`${index}${fingering.note}`}
+							className="rounded-md text-2xl"
+							onClick={() =>
+								dispatch({
+									type: 'setCurrentMidiNote',
+									payload: fingering.midiNote,
+								})
+							}
+						>
+							{/* todo: show different values depending on scale eg./ d e f# g a b c# d => rather than gb and db */}
+							{fingering.note}
+						</button>
+					))}
+				</div>
+			</div>
+
+			{/* scale selection */}
+			<div className="mt-8 flex flex-col items-center space-y-3 rounded-lg bg-slate-500 p-4">
+				<h4>select a scale</h4>
+				<input
+					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-black"
+					type="text"
+					placeholder="scale"
+					// onChange={(e) => setScaleNote(e.target.value)}
+				/>
+				<input
+					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-black"
+					type="number"
+					placeholder="octave"
+					min={2}
+					max={6}
+					defaultValue={2}
+					// onChange={handleSetScaleNote}
+				/>
+
+				{/* todo: create radio group */}
+				<div className="space-x-3">
+					<Button onClick={() => setScaleQuality('major')}>major</Button>
+					<Button onClick={() => setScaleQuality('minor')}>minor</Button>
+					<Button onClick={() => setScaleQuality('diminished')}>
+						diminished
+					</Button>
+				</div>
+			</div>
+
+			{/* metronome */}
 			<div className="mt-4">
 				<Metronome />
 			</div>
