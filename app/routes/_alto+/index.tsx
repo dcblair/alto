@@ -234,16 +234,27 @@ export default function Index() {
 				></audio>
 			</div>
 
-			{/* scales */}
+			{/* scale notes */}
 			<div className="my-8 rounded-lg bg-slate-600 p-8">
 				<div className="space-x-4">
 					{currentScaleFingerings.map((fingering, index) => (
-						<button key={`${index}${fingering.note}`} className="rounded-md">
-							{fingering.note}
+						<button
+							key={`${index}${fingering.note}`}
+							className="rounded-md text-2xl"
+							onClick={() =>
+								dispatch({
+									type: 'setCurrentMidiNote',
+									payload: fingering.midiNote,
+								})
+							}
+						>
+							{fingering.note} {fingering.octave}
 						</button>
 					))}
 				</div>
 			</div>
+
+			{/* scale selection */}
 			<div className="mt-8 flex flex-col items-center space-y-3 rounded-lg bg-slate-500 p-4">
 				<h4>select a scale</h4>
 				<input
@@ -261,6 +272,8 @@ export default function Index() {
 					defaultValue={2}
 					// onChange={handleSetScaleNote}
 				/>
+
+				{/* todo: create radio group */}
 				<div className="space-x-3">
 					<Button onClick={() => setScaleQuality('major')}>major</Button>
 					<Button onClick={() => setScaleQuality('minor')}>minor</Button>

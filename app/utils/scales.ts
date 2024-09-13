@@ -30,8 +30,17 @@ export const getScaleFingerings = (
 	}, startingNote)
 
 	return scaleArr.map(note => {
+		if (!fingerings[note]) {
+			return {
+				midiNote: note,
+				note: 'unknown',
+				octave: 0,
+				keyIds: [],
+			}
+		}
+
 		return {
-			note: note,
+			midiNote: note,
 			...fingerings[note],
 		}
 	})
