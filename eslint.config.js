@@ -1,7 +1,16 @@
-import { default as defaultConfig } from '@epic-web/config/eslint'
+import { fixupPluginRules } from '@eslint/compat'
+import reactPlugin from 'eslint-plugin-react'
+import reactHooksPlugin from 'eslint-plugin-react-hooks'
 
-/** @type {import("eslint").Linter.Config} */
+/**  @type {import('eslint').Linter.FlatConfig}*/
 export default [
-	...defaultConfig,
-	// add custom config objects here:
+	{
+		plugins: {
+			react: reactPlugin,
+			'react-hooks': fixupPluginRules(reactHooksPlugin),
+		},
+		rules: {
+			...reactHooksPlugin.configs.recommended.rules,
+		},
+	},
 ]
