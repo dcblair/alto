@@ -58,6 +58,7 @@ export default function Index() {
 			midiNote: transpositionPoint + index,
 		}))
 	}, [transpositionPoint])
+
 	const currentScaleFingerings = useMemo(() => {
 		return getScaleFingerings(scaleQuality, currentMidiNote)
 	}, [currentMidiNote, scaleQuality])
@@ -66,8 +67,7 @@ export default function Index() {
 
 	useEffect(() => {
 		// set fingerings of currently selected note
-		const newCurrentFingerings = fingerings.midiNote[currentMidiNote]
-			?.keyIds || [[]]
+		const newCurrentFingerings = fingerings[currentMidiNote]?.keyIds || [[]]
 		dispatch({
 			type: 'setCurrentFingerings',
 			payload: newCurrentFingerings,
@@ -84,7 +84,7 @@ export default function Index() {
 
 				// set current midi note
 				const midiNote =
-					currentKeyLayout.find((note) => note.key === e.key)?.midiNote || 0
+					currentKeyLayout.find(note => note.key === e.key)?.midiNote || 0
 				dispatch({ type: 'setCurrentMidiNote', payload: midiNote })
 
 				const parsedNote = keyMap[e.key]!.note
@@ -166,7 +166,7 @@ export default function Index() {
 	// 	setScaleNote(Number(e.target.value))
 	// }
 
-	const currentOctave = fingerings.midiNote[currentMidiNote]?.octave ?? ''
+	const currentOctave = fingerings[currentMidiNote]?.octave ?? ''
 	const noteWithOctave = `${note}${currentOctave}`
 
 	const controlsEnabled = true
@@ -235,12 +235,14 @@ export default function Index() {
 			</div>
 
 			{/* scales */}
-			<div>
-				{currentScaleFingerings.map((fingering) => (
-					<button key={fingering.keyId} className="rounded-md">
-						{fingering.note}
-					</button>
-				))}
+			<div className="my-8 rounded-lg bg-slate-600 p-8">
+				<div className="space-x-4">
+					{currentScaleFingerings.map((fingering, index) => (
+						<button key={`${index}${fingering.note}`} className="rounded-md">
+							{fingering.note}
+						</button>
+					))}
+				</div>
 			</div>
 			<div className="mt-8 flex flex-col items-center space-y-3 rounded-lg bg-slate-500 p-4">
 				<h4>select a scale</h4>
@@ -254,6 +256,8 @@ export default function Index() {
 					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-black"
 					type="number"
 					placeholder="octave"
+					min={2}
+					max={6}
 					defaultValue={2}
 					// onChange={handleSetScaleNote}
 				/>

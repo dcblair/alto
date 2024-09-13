@@ -29,5 +29,10 @@ export const getScaleFingerings = (
 		return nextValue
 	}, startingNote)
 
-	return scaleArr.map(note => fingerings.midiNote[note])
+	return scaleArr.map(note => {
+		return {
+			note: note,
+			...fingerings[note],
+		}
+	})
 }
