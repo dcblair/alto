@@ -2,28 +2,32 @@ import { fingerings } from '../constants/keys'
 
 export type ScaleQuality = 'major' | 'minor' | 'dominant' | 'diminished'
 
+/**
+ * Scale quality and the notes that make up the scale in number of semitones
+ * initial value is the starting note
+ **/
 const scaleNotes: Record<ScaleQuality, number[]> = {
 	// w w h w w w h
-	major: [2, 2, 1, 2, 2, 2, 1],
+	major: [0, 2, 2, 1, 2, 2, 2, 1],
 	//  w h w w h w w
-	minor: [2, 1, 2, 2, 1, 2, 2],
+	minor: [0, 2, 1, 2, 2, 1, 2, 2],
 	// w w h w w h w
-	dominant: [2, 2, 1, 2, 2, 1, 2],
+	dominant: [0, 2, 2, 1, 2, 2, 1, 2],
 	// w h w h w h w h
-	diminished: [2, 1, 2, 1, 2, 1, 2, 1],
+	diminished: [0, 2, 1, 2, 1, 2, 1, 2, 1],
 }
 
+// returns array of fingerings dependent on scale quality and starting note
 export const getScaleFingerings = (
 	quality: ScaleQuality,
 	startingNote: number,
 ) => {
-	const scale = scaleNotes[quality].map((interval, index) => {
-		if (index === 0) {
-			return startingNote
-		}
+	const scaleArr: number[] = []
+	scaleNotes[quality].reduce((prev: number, curr: number) => {
+		const nextValue = prev + curr
+		scaleArr.push(nextValue)
+		return nextValue
+	}, startingNote)
 
-		return startingNote + interval
-	})
-
-	return scale.map((note) => fingerings[note])
+	return scaleArr.map(note => fingerings.midiNote[note])
 }
