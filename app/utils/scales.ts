@@ -1,6 +1,13 @@
 import { fingerings } from '../constants/keys'
 
-export type ScaleQuality = 'major' | 'minor' | 'dominant' | 'diminished'
+export const scaleQualities = [
+	'major',
+	'minor',
+	'dominant',
+	'diminished',
+] as const
+
+export type ScaleQuality = (typeof scaleQualities)[number]
 
 /**
  * Scale quality and the notes that make up the scale in number of semitones
