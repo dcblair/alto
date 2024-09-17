@@ -1,4 +1,9 @@
-import { acceptedKeys, fingerings, keyMap } from '#app/constants/keys.js'
+import {
+	acceptedKeys,
+	fingerings,
+	keyMap,
+	midiNoteMap,
+} from '#app/constants/keys.js'
 import { type MetaFunction } from '@remix-run/node'
 import { Canvas, useThree } from '@react-three/fiber'
 import {
@@ -22,7 +27,12 @@ import SaxBody from '#app/components/ui/saxophone/sax-body.js'
 import { OrbitControls, type OrbitControlsProps } from '@react-three/drei'
 import { cn } from '#app/utils/misc.js'
 import Metronome from '#app/components/ui/metronome/metronome.js'
-import { getScaleFingerings, ScaleQuality } from '#app/utils/scales.js'
+import {
+	getScaleFingerings,
+	scaleQualities,
+	ScaleQuality,
+} from '#app/utils/scales.js'
+import { Radio, RadioGroup } from '@headlessui/react'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
@@ -41,7 +51,6 @@ export default function Index() {
 		state: {
 			currentFingerings,
 			currentMidiNote,
-			note,
 			selectedFingering,
 			transpositionPoint,
 		},
@@ -50,8 +59,8 @@ export default function Index() {
 	const audioPlaybackRef = useRef(null)
 	const [selectedKey, setSelectedKey] = useState('')
 	const [scaleQuality, setScaleQuality] = useState<ScaleQuality>('major')
-	// const [scaleOctave, setScaleOctave] = useState(2)
-	// const [scaleNote, setScaleNote] = useState(48)
+	const [scaleOctave, setScaleOctave] = useState(2)
+	const [scaleNote, setScaleNote] = useState(48)
 	const currentKeyLayout = useMemo(() => {
 		return acceptedKeys.map((key, index) => ({
 			key,
@@ -60,8 +69,12 @@ export default function Index() {
 	}, [transpositionPoint])
 
 	const currentScaleFingerings = useMemo(() => {
-		return getScaleFingerings(scaleQuality, currentMidiNote)
-	}, [currentMidiNote, scaleQuality])
+		return getScaleFingerings(scaleQuality, scaleNote)
+	}, [scaleNote, scaleQuality])
+
+	const note = Object.keys(midiNoteMap).find(
+		(key: string) => midiNoteMap[key] === currentMidiNote,
+	)
 
 	const hasAlternateFingerings = currentFingerings.length > 1
 
@@ -86,9 +99,6 @@ export default function Index() {
 				const midiNote =
 					currentKeyLayout.find(note => note.key === e.key)?.midiNote || 0
 				dispatch({ type: 'setCurrentMidiNote', payload: midiNote })
-
-				const parsedNote = keyMap[e.key]!.note
-				dispatch({ type: 'setNote', payload: parsedNote })
 			}
 
 			// handle alternate fingering selection
@@ -162,9 +172,19 @@ export default function Index() {
 		}
 	}
 
-	// const handleScaleNote = (e: React.ChangeEvent<HTMLInputElement>) => {
-	// 	setScaleNote(Number(e.target.value))
-	// }
+	const handleSetScaleNote = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const regex = /^[a-gA-G#bB]+$/
+		if (!regex.test(e.target.value)) return
+
+		const selectedNote = `${e.target.value.toLocaleLowerCase()}${scaleOctave}`
+
+		if (selectedNote in midiNoteMap) {
+			const midiNote = midiNoteMap[selectedNote] || 0
+
+			setScaleNote(midiNote)
+			dispatch({ type: 'setCurrentMidiNote', payload: midiNote })
+		}
+	}
 
 	const currentOctave = fingerings[currentMidiNote]?.octave ?? ''
 	const noteWithOctave = `${note}${currentOctave}`
@@ -258,11 +278,12 @@ export default function Index() {
 			{/* scale selection */}
 			<div className="mt-8 flex flex-col items-center space-y-3 rounded-lg bg-slate-500 p-4">
 				<h4>select a scale</h4>
+				{/* todo: add input mask with regex to only accept a-g, #, and b */}
 				<input
 					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-black"
 					type="text"
 					placeholder="scale"
-					// onChange={(e) => setScaleNote(e.target.value)}
+					onChange={e => handleSetScaleNote(e)}
 				/>
 				<input
 					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-black"
@@ -271,16 +292,45 @@ export default function Index() {
 					min={2}
 					max={6}
 					defaultValue={2}
-					// onChange={handleSetScaleNote}
+					onChange={e => setScaleOctave(Number(e.target.value))}
 				/>
 
-				{/* todo: create radio group */}
 				<div className="space-x-3">
-					<Button onClick={() => setScaleQuality('major')}>major</Button>
-					<Button onClick={() => setScaleQuality('minor')}>minor</Button>
-					<Button onClick={() => setScaleQuality('diminished')}>
-						diminished
-					</Button>
+					<fieldset className="text-center">
+						<legend className="font-medium leading-6 text-gray-50">
+							select scale quality
+						</legend>
+						<RadioGroup
+							value={scaleQuality}
+							onChange={setScaleQuality}
+							className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4"
+						>
+							{scaleQualities.map(quality => (
+								<Radio
+									key={quality}
+									value={quality}
+									aria-label={quality}
+									className="group relative flex cursor-pointer rounded-lg border border-gray-300 bg-white p-4 shadow-sm focus:outline-none data-[focus]:border-sky-300 data-[focus]:ring-2 data-[focus]:ring-indigo-600"
+								>
+									<span className="flex flex-1">
+										<span className="flex flex-col">
+											<span className="block text-sm font-medium text-gray-900">
+												{quality}
+											</span>
+										</span>
+									</span>
+									<div
+										aria-hidden="true"
+										className="size-4 rounded-full border-2 border-dashed border-slate-700 bg-blue-300 [.group:not([data-checked])_&]:invisible"
+									/>
+									<span
+										aria-hidden="true"
+										className="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent group-data-[focus]:border group-data-[checked]:border-indigo-600"
+									/>
+								</Radio>
+							))}
+						</RadioGroup>
+					</fieldset>
 				</div>
 			</div>
 
