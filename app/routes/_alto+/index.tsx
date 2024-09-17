@@ -51,7 +51,6 @@ export default function Index() {
 		state: {
 			currentFingerings,
 			currentMidiNote,
-			note,
 			selectedFingering,
 			transpositionPoint,
 		},
@@ -72,6 +71,10 @@ export default function Index() {
 	const currentScaleFingerings = useMemo(() => {
 		return getScaleFingerings(scaleQuality, scaleNote)
 	}, [scaleNote, scaleQuality])
+
+	const note = Object.keys(midiNoteMap).find(
+		(key: string) => midiNoteMap[key] === currentMidiNote,
+	)
 
 	const hasAlternateFingerings = currentFingerings.length > 1
 
@@ -96,9 +99,6 @@ export default function Index() {
 				const midiNote =
 					currentKeyLayout.find(note => note.key === e.key)?.midiNote || 0
 				dispatch({ type: 'setCurrentMidiNote', payload: midiNote })
-
-				const parsedNote = keyMap[e.key]!.note
-				dispatch({ type: 'setNote', payload: parsedNote })
 			}
 
 			// handle alternate fingering selection
@@ -176,14 +176,14 @@ export default function Index() {
 		const regex = /^[a-gA-G#bB]+$/
 		if (!regex.test(e.target.value)) return
 
-		const note = e.target.value.toLocaleLowerCase()
-		console.log(scaleNote, 'pre note line 222')
-		if (note in midiNoteMap) {
-			const midiNote = midiNoteMap[`${note}${scaleOctave}`] || 0
-			console.log(midiNote, 'post note line 225')
+		const selectedNote = `${e.target.value.toLocaleLowerCase()}${scaleOctave}`
+
+		if (selectedNote in midiNoteMap) {
+			const midiNote = midiNoteMap[selectedNote] || 0
+
 			setScaleNote(midiNote)
+			dispatch({ type: 'setCurrentMidiNote', payload: midiNote })
 		}
-		// todo: handle note not found
 	}
 
 	const currentOctave = fingerings[currentMidiNote]?.octave ?? ''
