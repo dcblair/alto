@@ -187,9 +187,6 @@ export default function Index() {
 		}
 	}
 
-	const currentOctave = fingerings[currentMidiNote]?.octave ?? ''
-	const noteWithOctave = `${note}${currentOctave}`
-
 	const controlsEnabled = true
 
 	return (
@@ -198,7 +195,7 @@ export default function Index() {
 			<div className="mb-8 flex flex-col text-center">
 				<p className="text-center text-lg">play some notes on your keyboard</p>
 				<span className="text-center text-3xl">
-					{noteWithOctave} - {currentMidiNote}
+					{note} - {currentMidiNote}
 				</span>
 			</div>
 
