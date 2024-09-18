@@ -33,6 +33,7 @@ import {
 	ScaleQuality,
 } from '#app/utils/scales.js'
 import { Radio, RadioGroup } from '@headlessui/react'
+import { Input } from '#app/components/ui/input.js'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
@@ -279,14 +280,14 @@ export default function Index() {
 			<div className="mt-8 flex flex-col items-center space-y-3 rounded-lg bg-slate-500 p-4">
 				<h4>select a scale</h4>
 				{/* todo: add input mask with regex to only accept a-g, #, and b */}
-				<input
-					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-black"
+				<Input
+					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-white"
 					type="text"
 					placeholder="scale"
 					onChange={e => handleSetScaleNote(e)}
 				/>
-				<input
-					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-black"
+				<Input
+					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-white"
 					type="number"
 					placeholder="octave"
 					min={2}
