@@ -33,6 +33,7 @@ import {
 	ScaleQuality,
 } from '#app/utils/scales.js'
 import { Radio, RadioGroup } from '@headlessui/react'
+import { Input } from '#app/components/ui/input.js'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
@@ -186,9 +187,6 @@ export default function Index() {
 		}
 	}
 
-	const currentOctave = fingerings[currentMidiNote]?.octave ?? ''
-	const noteWithOctave = `${note}${currentOctave}`
-
 	const controlsEnabled = true
 
 	return (
@@ -197,7 +195,7 @@ export default function Index() {
 			<div className="mb-8 flex flex-col text-center">
 				<p className="text-center text-lg">play some notes on your keyboard</p>
 				<span className="text-center text-3xl">
-					{noteWithOctave} - {currentMidiNote}
+					{note} - {currentMidiNote}
 				</span>
 			</div>
 
@@ -279,14 +277,14 @@ export default function Index() {
 			<div className="mt-8 flex flex-col items-center space-y-3 rounded-lg bg-slate-500 p-4">
 				<h4>select a scale</h4>
 				{/* todo: add input mask with regex to only accept a-g, #, and b */}
-				<input
-					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-black"
+				<Input
+					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-white"
 					type="text"
 					placeholder="scale"
 					onChange={e => handleSetScaleNote(e)}
 				/>
-				<input
-					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-black"
+				<Input
+					className="h-10 w-24 rounded-sm px-3 text-center font-bold text-white"
 					type="number"
 					placeholder="octave"
 					min={2}
