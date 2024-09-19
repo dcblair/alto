@@ -1,4 +1,4 @@
-import { fingerings } from '../constants/keys'
+import { fingerings, notes } from '../constants/keys'
 
 export const scaleQualities = [
 	'major',
@@ -22,6 +22,37 @@ const scaleNotes: Record<ScaleQuality, number[]> = {
 	dominant: [0, 2, 2, 1, 2, 2, 1, 2],
 	// w h w h w h w h
 	diminished: [0, 2, 1, 2, 1, 2, 1, 2, 1],
+}
+
+const majorFlats = ['c', 'f', 'bb', 'eb', 'ab', 'db', 'gb']
+const majorSharps = ['g', 'd', 'a', 'e', 'b', 'f#', 'c#']
+const minorFlats = ['a', 'd', 'g', 'c', 'f', 'bb', 'eb']
+const minorSharps = ['e', 'b', 'f#', 'c#', 'g#', 'd#', 'a#']
+const dominantFlats = ['f', 'bb', 'eb', 'ab', 'db', 'gb', 'cb']
+const dominantSharps = ['c', 'g', 'd', 'a', 'e', 'b', 'f#']
+const diminishedFlats = ['d', 'g', 'c', 'f', 'bb', 'eb', 'ab']
+const diminishedSharps = ['a', 'e', 'b', 'f#', 'c#', 'g#', 'd#']
+
+const alteration = ['flat', 'sharp'] as const
+
+export type Alteration = (typeof alteration)[number]
+
+// based on
+const returnSharpOrFlat = (note: string, alteration: Alteration) => {
+	// make sure note has flat value
+	if (!note.includes('/')) return
+
+	// # is 0 and b is 1 in returned array
+	const splitNote = note.split('/')
+
+	switch (alteration) {
+		case 'sharp':
+			return splitNote[0]
+		case 'flat':
+			return splitNote[1]
+		default:
+			return
+	}
 }
 
 // returns array of fingerings dependent on scale quality and starting note
