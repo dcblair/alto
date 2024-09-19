@@ -23,6 +23,23 @@ export const octaveShiftKeys: string[] = ['z', 'x']
 // default octave is 3
 export const octave = [1, 2, 3, 4, 5, 6, 7, 8]
 
+export const notes = [
+	'a',
+	'a#/bb',
+	'b',
+	'c',
+	'c#/db',
+	'd',
+	'd#/eb',
+	'e',
+	'f',
+	'f#/gb',
+	'g',
+	'g#/ab',
+] as const
+
+export type Notes = (typeof notes)[number]
+
 export const midiNoteMap: Record<string, number> = {
 	'a#/bb2': 46,
 	b2: 47,
@@ -70,25 +87,6 @@ export const midiNoteMap: Record<string, number> = {
 	f6: 89,
 	'f#/gb6': 90,
 	g6: 91,
-}
-
-export const keyMap: Record<string, { note: string }> = {
-	a: { note: 'c' },
-	w: { note: 'c#/db' },
-	s: { note: 'd' },
-	e: { note: 'd#/eb' },
-	d: { note: 'e' },
-	f: { note: 'f' },
-	t: { note: 'f#/gb' },
-	g: { note: 'g' },
-	y: { note: 'g#/ab' },
-	h: { note: 'a' },
-	u: { note: 'a#/bb' },
-	j: { note: 'b' },
-	k: { note: 'c' },
-	o: { note: 'c#/db' },
-	l: { note: 'd' },
-	p: { note: 'd#/eb' },
 }
 
 // todo: finish keyGroups for eventual keyboard saxophone key control

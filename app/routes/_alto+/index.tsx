@@ -1,9 +1,4 @@
-import {
-	acceptedKeys,
-	fingerings,
-	keyMap,
-	midiNoteMap,
-} from '#app/constants/keys.js'
+import { acceptedKeys, fingerings, midiNoteMap } from '#app/constants/keys.js'
 import { type MetaFunction } from '@remix-run/node'
 import { Canvas, useThree } from '@react-three/fiber'
 import {
@@ -123,7 +118,6 @@ export default function Index() {
 	}, [
 		currentKeyLayout,
 		currentFingerings,
-		keyMap,
 		currentMidiNote,
 		dispatch,
 		selectedKey,
