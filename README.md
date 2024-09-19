@@ -7,6 +7,16 @@ saxophone note fingerings, and the anatomy of the alto saxophone
 
 computer keyboard functionality
 
+the application can be interacted with in multiple ways:
+### interations
+#### computer keyboard
+- leverages midi keyboard values for notes
+- adjust octave with `z` and `x` keys
+- transpose with `n` and `m` keys
+  
+#### scale system
+- select scale note, quality, and octave
+
 **todo: insert image with keyboard directions**
 
 ## thanks
