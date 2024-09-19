@@ -1,6 +1,6 @@
-## alot
+## alto
 
-alot is an instructional application that allows users to learn about music,
+alto is an instructional application that allows users to learn about music,
 saxophone note fingerings, and the anatomy of the alto saxophone
 
 ## how to use
@@ -21,7 +21,7 @@ the application can be interacted with in multiple ways:
 
 ## thanks
 
-alot is built on [the epic stack](https://www.epicweb.dev/epic-stack)
+alto is built on [the epic stack](https://www.epicweb.dev/epic-stack)
 
 ## resources
 
