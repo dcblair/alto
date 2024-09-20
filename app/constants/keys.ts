@@ -296,7 +296,7 @@ export const fingerings: Record<number, Fingering> = {
 		],
 	},
 	47: {
-		note: ['b'],
+		note: ['b', 'cb'],
 		octave: 2,
 		keyIds: [
 			[
@@ -405,7 +405,7 @@ export const fingerings: Record<number, Fingering> = {
 		],
 	},
 	59: {
-		note: ['b'],
+		note: ['b', 'cb'],
 		octave: 3,
 		keyIds: [['b-main']],
 	},
@@ -485,7 +485,7 @@ export const fingerings: Record<number, Fingering> = {
 		],
 	},
 	71: {
-		note: ['b'],
+		note: ['b', 'cb'],
 		octave: 4,
 		keyIds: [['b-main', 'octave']],
 	},
