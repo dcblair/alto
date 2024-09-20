@@ -103,7 +103,7 @@ export const getScaleFingerings = (
 		return {
 			midiNote: note,
 			...fingerings[note],
-			note: returnSharpOrFlat(fingerings[note].note, scaleAlteration),
+			note: returnSharpOrFlat(fingerings[note]!.note, scaleAlteration),
 		}
 	})
 }
