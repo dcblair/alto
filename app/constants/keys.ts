@@ -41,51 +41,70 @@ export const notes = [
 export type Notes = (typeof notes)[number]
 
 export const midiNoteMap: Record<string, number> = {
-	'a#/bb2': 46,
+	'a#2': 46,
+	bb2: 46,
 	b2: 47,
 	c3: 48,
-	'c#/db3': 49,
+	'c#3': 49,
+	db3: 49,
 	d3: 50,
-	'd#/eb3': 51,
+	'd#3': 51,
+	eb3: 51,
 	e3: 52,
 	f3: 53,
-	'f#/gb3': 54,
+	'f#3': 54,
+	gb3: 54,
 	g3: 55,
-	'g#/ab3': 56,
+	'g#3': 56,
+	ab3: 56,
 	a3: 57,
-	'a#/bb3': 58,
+	'a#3': 58,
+	bb3: 58,
 	b3: 59,
 	c4: 60,
-	'c#/db4': 61,
+	'c#4': 61,
+	db4: 61,
 	d4: 62,
-	'd#/eb4': 63,
+	'd#4': 63,
+	eb4: 63,
 	e4: 64,
 	f4: 65,
-	'f#/gb4': 66,
+	'f#4': 66,
+	gb4: 66,
 	g4: 67,
-	'g#/ab4': 68,
+	'g#4': 68,
+	ab4: 68,
 	a4: 69,
-	'a#/bb4': 70,
+	'a#4': 70,
+	bb4: 70,
 	b4: 71,
 	c5: 72,
-	'c#/db5': 73,
+	'c#5': 73,
+	db5: 73,
 	d5: 74,
-	'd#/eb5': 75,
+	'd#5': 75,
+	eb5: 75,
 	e5: 76,
 	f5: 77,
-	'f#/gb5': 78,
+	'f#5': 78,
+	gb5: 78,
 	g5: 79,
-	'g#/ab5': 80,
+	'g#5': 80,
+	ab5: 80,
 	a5: 81,
-	'a#/bb5': 82,
+	'a#5': 82,
+	bb5: 82,
 	b5: 83,
 	c6: 84,
-	'c#/db6': 85,
+	'c#6': 85,
+	db6: 85,
 	d6: 86,
-	'd#/eb6': 87,
+	'd#6': 87,
+	eb6: 87,
 	e6: 88,
 	f6: 89,
-	'f#/gb6': 90,
+	'f#6': 90,
+	gb6: 90,
 	g6: 91,
 }
 
@@ -252,7 +271,7 @@ export const keyLayout: Record<
 }
 
 export interface Fingering {
-	note: string
+	note: string[]
 	octave: number
 	keyIds: string[][]
 }
@@ -261,7 +280,7 @@ export interface Fingering {
 export const fingerings: Record<number, Fingering> = {
 	// 2nd octave
 	46: {
-		note: 'a#/bb',
+		note: ['a#', 'bb'],
 		octave: 2,
 		keyIds: [
 			[
@@ -277,7 +296,7 @@ export const fingerings: Record<number, Fingering> = {
 		],
 	},
 	47: {
-		note: 'b',
+		note: ['b'],
 		octave: 2,
 		keyIds: [
 			[
@@ -295,7 +314,7 @@ export const fingerings: Record<number, Fingering> = {
 
 	// 3rd octave - middle c
 	48: {
-		note: 'c',
+		note: ['c'],
 		octave: 3,
 		keyIds: [
 			[
@@ -310,7 +329,7 @@ export const fingerings: Record<number, Fingering> = {
 		],
 	},
 	49: {
-		note: 'c#/db',
+		note: ['c#', 'db'],
 		octave: 3,
 		keyIds: [
 			[
@@ -326,12 +345,12 @@ export const fingerings: Record<number, Fingering> = {
 		],
 	},
 	50: {
-		note: 'd',
+		note: ['d'],
 		octave: 3,
 		keyIds: [['b-main', 'c-main', 'g-main', 'f-main', 'e-main', 'd-main']],
 	},
 	51: {
-		note: 'd#/eb',
+		note: ['d#', 'eb'],
 		octave: 3,
 		keyIds: [
 			[
@@ -346,37 +365,37 @@ export const fingerings: Record<number, Fingering> = {
 		],
 	},
 	52: {
-		note: 'e',
+		note: ['e'],
 		octave: 3,
 		keyIds: [['b-main', 'c-main', 'g-main', 'f-main', 'e-main']],
 	},
 	53: {
-		note: 'f',
+		note: ['f'],
 		octave: 3,
 		keyIds: [['b-main', 'c-main', 'g-main', 'f-main']],
 	},
 	54: {
-		note: 'f#/gb',
+		note: ['f#', 'gb'],
 		octave: 3,
 		keyIds: [['b-main', 'c-main', 'g-main', 'e-main']],
 	},
 	55: {
-		note: 'g',
+		note: ['g'],
 		octave: 3,
 		keyIds: [['b-main', 'c-main', 'g-main']],
 	},
 	56: {
-		note: 'g#/ab',
+		note: ['g#', 'ab'],
 		octave: 3,
 		keyIds: [['b-main', 'c-main', 'g-main', 'g#/ab-pinky']],
 	},
 	57: {
-		note: 'a',
+		note: ['a'],
 		octave: 3,
 		keyIds: [['b-main', 'c-main']],
 	},
 	58: {
-		note: 'a#/bb',
+		note: ['a#', 'bb'],
 		octave: 3,
 		keyIds: [
 			['b-main', 'b-bis'],
@@ -386,31 +405,31 @@ export const fingerings: Record<number, Fingering> = {
 		],
 	},
 	59: {
-		note: 'b',
+		note: ['b'],
 		octave: 3,
 		keyIds: [['b-main']],
 	},
 
 	// 4th octave
 	60: {
-		note: 'c',
+		note: ['c'],
 		octave: 4,
 		keyIds: [['c-main'], ['b-main', 'c-side']],
 	},
 	61: {
-		note: 'c#/db',
+		note: ['c#', 'db'],
 		octave: 4,
 		keyIds: [['']],
 	},
 	62: {
-		note: 'd',
+		note: ['d'],
 		octave: 4,
 		keyIds: [
 			['b-main', 'c-main', 'g-main', 'f-main', 'e-main', 'd-main', 'octave'],
 		],
 	},
 	63: {
-		note: 'd#/eb',
+		note: ['d#', 'eb'],
 		octave: 4,
 		keyIds: [
 			[
@@ -426,37 +445,37 @@ export const fingerings: Record<number, Fingering> = {
 		],
 	},
 	64: {
-		note: 'e',
+		note: ['e'],
 		octave: 4,
 		keyIds: [['b-main', 'c-main', 'g-main', 'f-main', 'e-main', 'octave']],
 	},
 	65: {
-		note: 'f',
+		note: ['f'],
 		octave: 4,
 		keyIds: [['b-main', 'c-main', 'g-main', 'f-main', 'octave']],
 	},
 	66: {
-		note: 'f#/gb',
+		note: ['f#', 'gb'],
 		octave: 4,
 		keyIds: [['b-main', 'c-main', 'g-main', 'e-main', 'octave']],
 	},
 	67: {
-		note: 'g',
+		note: ['g'],
 		octave: 4,
 		keyIds: [['b-main', 'c-main', 'g-main', 'octave']],
 	},
 	68: {
-		note: 'g#/ab',
+		note: ['g#', 'ab'],
 		octave: 4,
 		keyIds: [['b-main', 'c-main', 'g-main', 'g#/ab-pinky', 'octave']],
 	},
 	69: {
-		note: 'a',
+		note: ['a'],
 		octave: 4,
 		keyIds: [['b-main', 'c-main', 'octave']],
 	},
 	70: {
-		note: 'a#/bb',
+		note: ['a#', 'bb'],
 		octave: 4,
 		keyIds: [
 			['b-main', 'b-bis', 'octave'],
@@ -466,14 +485,14 @@ export const fingerings: Record<number, Fingering> = {
 		],
 	},
 	71: {
-		note: 'b',
+		note: ['b'],
 		octave: 4,
 		keyIds: [['b-main', 'octave']],
 	},
 
 	// 5th octave
 	72: {
-		note: 'c',
+		note: ['c'],
 		octave: 5,
 		keyIds: [
 			['c-main', 'octave'],
@@ -481,22 +500,22 @@ export const fingerings: Record<number, Fingering> = {
 		],
 	},
 	73: {
-		note: 'c#/db',
+		note: ['c#', 'db'],
 		octave: 5,
 		keyIds: [['octave']],
 	},
 	74: {
-		note: 'd',
+		note: ['d'],
 		octave: 5,
 		keyIds: [['d-palm', 'octave']],
 	},
 	75: {
-		note: 'd#/eb',
+		note: ['d#', 'eb'],
 		octave: 5,
 		keyIds: [['d-palm', 'd#/eb-palm', 'octave']],
 	},
 	76: {
-		note: 'e',
+		note: ['e'],
 		octave: 5,
 		keyIds: [
 			['d-palm', 'd#/eb-palm', 'e-side', 'octave'],
@@ -504,7 +523,7 @@ export const fingerings: Record<number, Fingering> = {
 		],
 	},
 	77: {
-		note: 'f',
+		note: ['f'],
 		octave: 5,
 		keyIds: [
 			['d-palm', 'd#/eb-palm', 'f-palm', 'e-side', 'octave'],
@@ -512,22 +531,22 @@ export const fingerings: Record<number, Fingering> = {
 		],
 	},
 	78: {
-		note: 'f#/gb',
+		note: ['f#', 'gb'],
 		octave: 5,
 		keyIds: [['f-fork', 'c-main', 'octave']],
 	},
 	79: {
-		note: 'g',
+		note: ['g'],
 		octave: 5,
 		keyIds: [['f-fork', 'f-main', 'e-side', 'octave']],
 	},
 	80: {
-		note: 'g#/ab',
+		note: ['g#', 'ab'],
 		octave: 5,
 		keyIds: [['b-main', 'c-main', 'g-main', 'c-side', 'a#/bb-side', 'octave']],
 	},
 	81: {
-		note: 'a',
+		note: ['a'],
 		octave: 5,
 		keyIds: [['f-fork', 'c-main', 'octave']],
 	},
