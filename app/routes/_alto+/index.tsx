@@ -71,8 +71,6 @@ export default function Index() {
 		return getScaleFingerings(scaleQuality, scaleNote)
 	}, [scaleNote, scaleQuality])
 
-	console.log(currentScaleFingerings)
-
 	const note = Object.keys(midiNoteMap).find(
 		(key: string) => midiNoteMap[key] === currentMidiNote,
 	)
