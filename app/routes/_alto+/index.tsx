@@ -1,9 +1,4 @@
-import {
-	acceptedKeys,
-	fingerings,
-	keyMap,
-	midiNoteMap,
-} from '#app/constants/keys.js'
+import { acceptedKeys, fingerings, midiNoteMap } from '#app/constants/keys.js'
 import { type MetaFunction } from '@remix-run/node'
 import { Canvas, useThree } from '@react-three/fiber'
 import {
@@ -61,7 +56,10 @@ export default function Index() {
 	const [selectedKey, setSelectedKey] = useState('')
 	const [scaleQuality, setScaleQuality] = useState<ScaleQuality>('major')
 	const [scaleOctave, setScaleOctave] = useState(2)
-	const [scaleNote, setScaleNote] = useState(48)
+	const [scaleNote, setScaleNote] = useState({
+		midiNote: 48,
+		noteName: 'c',
+	})
 	const currentKeyLayout = useMemo(() => {
 		return acceptedKeys.map((key, index) => ({
 			key,
@@ -123,7 +121,6 @@ export default function Index() {
 	}, [
 		currentKeyLayout,
 		currentFingerings,
-		keyMap,
 		currentMidiNote,
 		dispatch,
 		selectedKey,
@@ -177,12 +174,13 @@ export default function Index() {
 		const regex = /^[a-gA-G#bB]+$/
 		if (!regex.test(e.target.value)) return
 
-		const selectedNote = `${e.target.value.toLocaleLowerCase()}${scaleOctave}`
+		const lowercaseNote = e.target.value.toLocaleLowerCase()
+		const selectedNote = `${lowercaseNote}${scaleOctave}`
 
 		if (selectedNote in midiNoteMap) {
 			const midiNote = midiNoteMap[selectedNote] || 0
 
-			setScaleNote(midiNote)
+			setScaleNote({ midiNote: midiNote, noteName: lowercaseNote })
 			dispatch({ type: 'setCurrentMidiNote', payload: midiNote })
 		}
 	}
