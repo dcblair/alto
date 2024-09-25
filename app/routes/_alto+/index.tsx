@@ -29,6 +29,7 @@ import {
 } from '#app/utils/scales.js'
 import { Radio, RadioGroup } from '@headlessui/react'
 import { Input } from '#app/components/ui/input.js'
+import clsx from 'clsx'
 
 export const meta: MetaFunction = () => [{ title: 'Alto Model' }]
 
@@ -185,6 +186,11 @@ export default function Index() {
 		}
 	}
 
+	const midiNotes = Array.from(
+		{ length: 91 - 46 },
+		(_, index) => index + 46,
+	).toReversed()
+
 	const controlsEnabled = true
 
 	return (
@@ -272,7 +278,7 @@ export default function Index() {
 			</div>
 
 			{/* scale selection */}
-			<div className="mt-8 flex flex-col items-center space-y-3 rounded-lg bg-slate-500 p-4">
+			<div className="my-8 flex flex-col items-center space-y-3 rounded-lg bg-slate-500 p-4">
 				<h4>select a scale</h4>
 				{/* todo: add input mask with regex to only accept a-g, #, and b */}
 				<Input
@@ -327,6 +333,45 @@ export default function Index() {
 							))}
 						</RadioGroup>
 					</fieldset>
+				</div>
+			</div>
+
+			{/* staff */}
+			<div className="flex h-full w-72 rounded-xl bg-white">
+				<div className="w-1/6">
+					<h4 className="text-black">staff</h4>
+				</div>
+				<div
+					className={clsx(
+						``,
+						'absolute h-8 w-4 -rotate-45 rounded-lg bg-gray-600',
+					)}
+				/>
+				<div className="w-5/6 flex-col">
+					{/* from 46 - 91 */}
+					{midiNotes.map((note, index) => (
+						<div className="flex w-full">
+							{index % 2 !== 0 ? (
+								<>
+									<div
+										key={note}
+										className="h-1/6 w-full border-b border-gray-300 bg-gray-200"
+										onClick={() =>
+											dispatch({ type: 'setCurrentMidiNote', payload: note })
+										}
+									/>
+									<span>{note}</span>
+								</>
+							) : (
+								<div
+									className="h-1 w-full bg-black"
+									onClick={() =>
+										dispatch({ type: 'setCurrentMidiNote', payload: note })
+									}
+								/>
+							)}
+						</div>
+					))}
 				</div>
 			</div>
 
